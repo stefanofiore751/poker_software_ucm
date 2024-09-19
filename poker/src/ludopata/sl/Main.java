@@ -6,11 +6,12 @@ import java.util.LinkedList;
 
 public class Main {
 
-    private LinkedList<Carta> mano;
+    private final LinkedList<Carta> mano;
 
     // Counter number of cards of each suit:
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
-    private int[] suits_cont,value_count;
+    private final int[] suits_cont;
+    private final int[] value_count;
 
     // Array number of cards of each value:
     //
@@ -106,7 +107,9 @@ public class Main {
 
     private  boolean Straight(){
     for(int i = 0; i < value_count.length;i++){
-        if(value_count[i] == 1) return StraightHelper(i);
+        if(value_count[i] == 1)
+            if (StraightHelper(i))
+                return true;
     }
         return false;
     }
@@ -120,8 +123,8 @@ public class Main {
     }
 
     public boolean poker(){
-        for(int i = 0; i < value_count.length;i++){
-            if(value_count[i] == 4) return StraightHelper(i);
+        for (int j : value_count) {
+            if (j == 4) return true;
         }
         return false;
     }
