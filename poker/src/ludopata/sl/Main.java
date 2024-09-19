@@ -12,9 +12,7 @@ public class Main {
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
     private final int[] suits_cont;
     private final int[] value_count;
-
-    // Array number of cards of each value:
-    //
+    
 
     public Main() {
         mano = new LinkedList<>();
