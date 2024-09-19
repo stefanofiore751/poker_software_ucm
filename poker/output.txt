@@ -1,0 +1,1 @@
+Conteggio semi: [Cuori: 4, Quadri: 4, Fiori: 5, Picche: 5]
