@@ -37,6 +37,27 @@ public class Game {
             while (in.available() > 0) {
                 value = (char) in.read();
                 suit = (char) in.read();
+                switch (suit){
+                    case 'h': suits_cont[0]++; break;
+                    case 'd': suits_cont[1]++; break;
+                    case 'c': suits_cont[2]++; break;
+                    case 's': suits_cont[3]++; break;
+                }
+                switch (value){
+                    case 'A': value_count[0]++; break;
+                    case '2': value_count[1]++; break;
+                    case '3': value_count[2]++; break;
+                    case '4': value_count[3]++; break;
+                    case '5': value_count[4]++; break;
+                    case '6': value_count[5]++; break;
+                    case '7': value_count[6]++; break;
+                    case '8': value_count[7]++; break;
+                    case '9': value_count[8]++; break;
+                    case 'T': value_count[9]++; break;
+                    case 'J': value_count[10]++; break;
+                    case 'Q': value_count[11]++; break;
+                    case 'K': value_count[12]++; break;
+                }
                 mano.add(new Carta(value, suit));
             }
 
@@ -59,33 +80,6 @@ public class Game {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    void CountSuits_Value() {
-
-        for (Carta c : mano) {
-            switch (c.Getsuit()){
-                case 'h': suits_cont[0]++; break;
-                case 'd': suits_cont[1]++; break;
-                case 'c': suits_cont[2]++; break;
-                case 's': suits_cont[3]++; break;
-            }
-            switch (c.Getvalue()){
-                case 'A': value_count[0]++; break;
-                case '2': value_count[1]++; break;
-                case '3': value_count[2]++; break;
-                case '4': value_count[3]++; break;
-                case '5': value_count[4]++; break;
-                case '6': value_count[5]++; break;
-                case '7': value_count[6]++; break;
-                case '8': value_count[7]++; break;
-                case '9': value_count[8]++; break;
-                case 'T': value_count[9]++; break;
-                case 'J': value_count[10]++; break;
-                case 'Q': value_count[11]++; break;
-                case 'K': value_count[12]++; break;
-            }
         }
     }
 

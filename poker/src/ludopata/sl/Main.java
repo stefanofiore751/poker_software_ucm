@@ -7,7 +7,6 @@ public class Main {
         Game mainObj = new Game();
         // Apartado
                 mainObj.readInput();
-                mainObj.CountSuits_Value();
                 mainObj.writeoutput();
     }
 
