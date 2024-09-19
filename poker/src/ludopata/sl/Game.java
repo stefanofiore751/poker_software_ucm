@@ -3,21 +3,22 @@ package ludopata.sl;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
-
+import
 public class Game {
-
     private final LinkedList<Carta> mano;
 
     // Counter number of cards of each suit:
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
     private final int[] suits_cont;
     private final int[] value_count;
+    private Jugada jugada;
 
 
     public Game() {
         mano = new LinkedList<>();
         suits_cont = new int[4];
         value_count = new int[13];
+        jugada = new Jugada();
     }
 
 
@@ -83,29 +84,38 @@ public class Game {
         }
     }
 
-    private  boolean straightFlush(){
-        return Color() && Straight();
+    private  void straightFlush(){
+        Color();
+        Straight();
+        if(jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH)) jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH,true);
     }
 
-    private  boolean Color(){
-        return suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5 ;
+    private  void Color(){
+        if(suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5) jugada.updateMap(Jugada.Jugadas.FLUSH,true); ;
     }
 
-    private  boolean Straight(){
-        for(int i = 0; i < value_count.length;i++){
-            if(value_count[i] == 1)
-                if (StraightHelper(i))
-                    return true;
+    private void Straight(){
+        boolean twoFound = false;
+        int consecutive = 0,gaps = 0;
+        for(int i = 0; i < value_count.length; i++){
+            if(value_count[i] == 2){
+                if(!twoFound)
+                    twoFound = true;
+                else return;
+            }
+            else if(value_count[i] > 2) return;
+            else if(value_count[i] == 1){
+                consecutive++;
+                if(consecutive == 5){
+                    jugada.updateMap(Jugada.Jugadas.STRAIGHT,true);
+                    return;
+                }
+            } if(consecutive != 0 && consecutive <4) gaps++;
+            if(gaps == 2) return;
         }
-        return false;
-    }
-
-    private boolean StraightHelper(int i){
-        if(i > 0 && i < 9)
-            return value_count[i + 1] == 1 && value_count[i + 2] == 1 && value_count[i + 3] == 1 && value_count[i + 4] == 1;
-        else if(i == 0)
-            return (value_count[i + 1] == 1 && value_count[i + 2] == 1 && value_count[i + 3] == 1 && value_count[i + 4] == 1) ||  value_count[9] == 1 && value_count[10] == 1 && value_count[11] == 1 && value_count[12] == 1;
-        return false;
+        if(consecutive == 4 && gaps == 1)
+            jugada.updateMap(Jugada.Jugadas.OPEN_ENDED,true);
+        else if(consecutive == 4 && gaps == 0) jugada.updateMap(Jugada.Jugadas.GUTSHOT,true);
     }
 
     public boolean poker(){
