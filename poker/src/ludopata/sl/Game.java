@@ -3,15 +3,14 @@ package ludopata.sl;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
-import
 public class Game {
     private final LinkedList<Carta> mano;
 
     // Counter number of cards of each suit:
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
     private final int[] suits_cont;
-    private final int[] value_count;
-    private Jugada jugada;
+    int[] value_count;
+    Jugada jugada;
 
 
     public Game() {
@@ -72,7 +71,7 @@ public class Game {
     }
 
     void writeoutput() {
-        try {
+        /**try {
             FileOutputStream out = new FileOutputStream("C:\\Users\\stefi\\Documents\\GitHub\\poker_software_ucm\\poker\\src\\ludopata\\sl\\output.txt");
             // Scrivere l'output su file
             String result = "Conteggio semi: [Cuori: " + suits_cont[0] + ", Quadri: " + suits_cont[1]
@@ -81,49 +80,94 @@ public class Game {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }**/
     }
-
+    // I) Straight Flush
     private  void straightFlush(){
         Color();
         Straight();
         if(jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH)) jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH,true);
     }
-
-    private  void Color(){
-        if(suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5) jugada.updateMap(Jugada.Jugadas.FLUSH,true); ;
+    // II) Poker (four-of-a-kind)
+    public void poker(){
+        for (int j : value_count) {
+            if (j == 4){
+                jugada.updateMap(Jugada.Jugadas.POKER,true);
+                return;
+            }
+        }
     }
 
-    private void Straight(){
+    // III) Full House (El Barco)
+    private void full() {
+         trio();
+         pair();
+         if(jugada.getValue(Jugada.Jugadas.TRIO) && jugada.getValue(Jugada.Jugadas.PAIR)) jugada.updateMap(Jugada.Jugadas.FULL_HOUSE,true);
+    }
+
+    // IV) Flush (color)
+    private  void Color(){
+        if(suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5) jugada.updateMap(Jugada.Jugadas.FLUSH,true);
+        if(suits_cont[0] == 4 || suits_cont[1] == 4 || suits_cont[2] == 4 || suits_cont[3] == 4) jugada.updateMap(Jugada.Jugadas.FLUSH_DRAW,true);
+
+    }
+
+    // V) Straight (escalera)
+    void Straight(){
+        int[] new_value_count = new int[value_count.length + 1];
+        System.arraycopy(value_count, 0, new_value_count, 0, value_count.length);
+        new_value_count[new_value_count.length - 1] = value_count[0];
+
         boolean twoFound = false;
         int consecutive = 0,gaps = 0;
-        for(int i = 0; i < value_count.length; i++){
-            if(value_count[i] == 2){
-                if(!twoFound)
+        for (int j : new_value_count) {
+            if (j == 2) {
+                if (!twoFound)
                     twoFound = true;
                 else return;
-            }
-            else if(value_count[i] > 2) return;
-            else if(value_count[i] == 1){
+            } else if (j > 2) return;
+            if (j == 1 || j == 2) {
                 consecutive++;
-                if(consecutive == 5){
-                    jugada.updateMap(Jugada.Jugadas.STRAIGHT,true);
+                if (consecutive == 5 && gaps == 0) {
+                    jugada.updateMap(Jugada.Jugadas.STRAIGHT, true);
+                    jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, false);
                     return;
                 }
-            } if(consecutive != 0 && consecutive <4) gaps++;
-            if(gaps == 2) return;
+                if (consecutive == 4 && gaps == 1) {
+                    jugada.updateMap(Jugada.Jugadas.GUTSHOT, true);
+                    return;
+                } else if (consecutive == 4) {
+                    jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, true);
+                }
+
+            } else if (consecutive != 0) gaps++;
+            if (gaps == 2) {
+                consecutive = 0;
+                gaps = 0;
+            }
         }
-        if(consecutive == 4 && gaps == 1)
-            jugada.updateMap(Jugada.Jugadas.OPEN_ENDED,true);
-        else if(consecutive == 4 && gaps == 0) jugada.updateMap(Jugada.Jugadas.GUTSHOT,true);
+        }
+
+    // VI) Three-of-a-kind (trio)
+    private void trio() {
+        for (int j : value_count) {
+            if (j == 3){
+               jugada.updateMap(Jugada.Jugadas.TRIO, true);
+               return;
+            }
+        }
     }
 
-    public boolean poker(){
+    // VII) Two-pair (pareja)
+    private void pair() {
         for (int j : value_count) {
-            if (j == 4) return true;
+            if (j == 2){
+                jugada.updateMap(Jugada.Jugadas.PAIR, true);
+                return;
+            }
         }
-        return false;
     }
+
 
 
 }
