@@ -3,6 +3,7 @@ package ludopata.sl;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 public class Game {
     private final LinkedList<Carta> mano;
@@ -36,7 +37,6 @@ public class Game {
             while (in.available() > 0) {
                 value = (char) in.read();
                 suit = (char) in.read();
-                System.out.println(value);
                 switch (suit){
                     case 'h': suits_cont[0]++; break;
                     case 'd': suits_cont[1]++; break;
@@ -70,22 +70,49 @@ public class Game {
         }
     }
 
+    String getMano(){
+        StringBuilder manostring = new StringBuilder();
+        for(Carta c : mano)
+            manostring.append(c.toString());
+        return manostring.toString();
+    }
+
     void writeoutput() {
+        Jugada.Jugadas StrongestJugada = GetStrongestJugada();
+
         try {
             FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output.txt");
             // Scrivere l'output su file
-            String result = "Conteggio semi: [Cuori: " + suits_cont[0] ;
+            String result =  getMano() +  "-Best Hand: " + StrongestJugada ;
+            if(jugada.getValue(Jugada.Jugadas.GUTSHOT))
+                result += "\n-DRAW: Straight Gutshot";
+            if(jugada.getValue(Jugada.Jugadas.FLUSH_DRAW))
+                result += "\n-DRAW: flush";
             out.write(result.getBytes());
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    private Jugada.Jugadas GetStrongestJugada(){
+        straightFlush();
+        if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH)) return Jugada.Jugadas.STRAIGHT_FLUSH;
+        poker();
+        if(jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH)) return Jugada.Jugadas.POKER;
+        full();
+        if(jugada.getValue(Jugada.Jugadas.FULL_HOUSE)) return Jugada.Jugadas.FULL_HOUSE;
+        if(jugada.getValue(Jugada.Jugadas.FLUSH)) return Jugada.Jugadas.FLUSH;
+        if(jugada.getValue(Jugada.Jugadas.STRAIGHT)) return Jugada.Jugadas.STRAIGHT;
+        if(jugada.getValue(Jugada.Jugadas.TRIO)) return Jugada.Jugadas.TRIO;
+        if (jugada.getValue(Jugada.Jugadas.PAIR)) return Jugada.Jugadas.PAIR;
+        return Jugada.Jugadas.HIGH_CARD;
+    }
+
     // I) Straight Flush
     private  void straightFlush(){
         Color();
         Straight();
-        if(jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH)) jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH,true);
+        if(jugada.getValue(Jugada.Jugadas.FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH)) jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH,true);
     }
     // II) Poker (four-of-a-kind)
     public void poker(){
@@ -119,8 +146,9 @@ public class Game {
 
         boolean twoFound = false;
         int consecutive = 0,gaps = 0;
-        for (int j : new_value_count) {
-            if (j == 2) {
+        for (int i = 0; i < new_value_count.length; i++) {
+            int j = new_value_count[i];
+            if (j == 2 && i != new_value_count.length - 1 ) {
                 if (!twoFound)
                     twoFound = true;
                 else return;
@@ -165,6 +193,31 @@ public class Game {
                 return;
             }
         }
+    }
+
+    public void measurePerformance(int numberOfHands) {
+        long startTime = System.nanoTime();
+
+        for (int i = 0; i < numberOfHands; i++) {
+            mano.clear();
+            resetCounters();
+
+            readInput();
+
+            Jugada.Jugadas strongestHand = GetStrongestJugada();
+
+        }
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+
+        System.out.println("Processed " + numberOfHands + " hands in " + (duration / 1_000_000) + " milliseconds");
+    }
+
+    private void resetCounters() {
+        Arrays.fill(suits_cont, 0);
+        Arrays.fill(value_count, 0);
+        jugada = new Jugada();
     }
 
 
