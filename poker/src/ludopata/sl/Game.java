@@ -25,11 +25,10 @@ public class Game {
 
 
     void readInput() {
-        InputStream in = Main.class.getClassLoader().getResourceAsStream("entrada.txt");
-
+        //InputStream in = Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Abrir fichero input
-
+            FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
 
