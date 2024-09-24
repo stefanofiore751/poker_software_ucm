@@ -7,31 +7,34 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Game {
-    private final LinkedList<Carta> mano;
-
     // Counter number of cards of each suit:
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
     private final int[] suits_cont;
-    int[] value_count;
-    Jugada jugada;
+
+    // Counter number of cards of each kind:
+    private int[] value_count;
+
+    private Jugada jugada;
+
+    private final LinkedList<Carta> mano;
 
     public Game() {
-        mano = new LinkedList<>();
         suits_cont = new int[4];
         value_count = new int[13];
         jugada = new Jugada();
+        mano = new LinkedList<>();
     }
 
     void readInput() {
         // InputStream in =
         // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
-            // Abrir fichero input
+            // Open input file
             FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
 
-            // Leer fichero
+            // Read file
             while (in.available() > 0) {
                 value = (char) in.read();
                 suit = (char) in.read();
@@ -41,19 +44,12 @@ public class Game {
                 mano.add(new Carta(value, suit));
             }
 
-            // Cerrar fichero
+            // Close file
             in.close();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-
-    String getMano() {
-        StringBuilder manostring = new StringBuilder();
-        for (Carta c : mano)
-            manostring.append(c.toString());
-        return manostring.toString();
     }
 
     void writeoutput() {
@@ -130,6 +126,13 @@ public class Game {
                 value_count[12]++;
                 break;
         }
+    }
+
+    String getMano() {
+        StringBuilder manostring = new StringBuilder();
+        for (Carta c : mano)
+            manostring.append(c.toString());
+        return manostring.toString();
     }
 
     private Jugada.Jugadas GetStrongestJugada() {
