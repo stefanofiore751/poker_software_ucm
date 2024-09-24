@@ -137,7 +137,7 @@ public class Game {
         if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH))
             return Jugada.Jugadas.STRAIGHT_FLUSH;
         poker();
-        if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH))
+        if (jugada.getValue(Jugada.Jugadas.POKER))
             return Jugada.Jugadas.POKER;
         full();
         if (jugada.getValue(Jugada.Jugadas.FULL_HOUSE))
@@ -157,7 +157,7 @@ public class Game {
     private void straightFlush() {
         Color();
         Straight();
-        if (jugada.getValue(Jugada.Jugadas.FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH))
+        if (jugada.getValue(Jugada.Jugadas.FLUSH) && jugada.getValue(Jugada.Jugadas.STRAIGHT))
             jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH, true);
     }
 
