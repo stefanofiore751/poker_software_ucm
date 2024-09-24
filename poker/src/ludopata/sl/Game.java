@@ -26,7 +26,6 @@ public class Game {
 
 
     void readInput() {
-        //InputStream in = Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Abrir fichero input
             FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
@@ -65,12 +64,12 @@ public class Game {
             in.close();
         }
         catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     String getMano(){
+        //method to get the hand for the output
         StringBuilder manostring = new StringBuilder();
         for(Carta c : mano)
             manostring.append(c.toString());
@@ -82,7 +81,6 @@ public class Game {
 
         try {
             FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output.txt");
-            // Scrivere l'output su file
             String result =  getMano() +  "-Best Hand: " + StrongestJugada ;
             if(jugada.getValue(Jugada.Jugadas.GUTSHOT))
                 result += "\n-DRAW: Straight Gutshot";
@@ -95,6 +93,7 @@ public class Game {
         }
     }
     private Jugada.Jugadas GetStrongestJugada(){
+        //starting from the straight flush we check if we have that hand, if not we go to the other one below and so on
         straightFlush();
         if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH)) return Jugada.Jugadas.STRAIGHT_FLUSH;
         poker();
@@ -140,34 +139,35 @@ public class Game {
 
     // V) Straight (escalera)
     void Straight(){
-        int[] new_value_count = new int[value_count.length + 1];
-        System.arraycopy(value_count, 0, new_value_count, 0, value_count.length);
-        new_value_count[new_value_count.length - 1] = value_count[0];
+        int[] new_value_count = new int[value_count.length + 1]; // new array to have the ace also at the end
+        System.arraycopy(value_count, 0, new_value_count, 0, value_count.length); //copy of value count
+        new_value_count[new_value_count.length - 1] = value_count[0];//adding the ace
 
         boolean twoFound = false;
         int consecutive = 0,gaps = 0;
         for (int i = 0; i < new_value_count.length; i++) {
             int j = new_value_count[i];
-            if (j == 2 && i != new_value_count.length - 1 ) {
+            //if there's 2 time a card with 2 copy it can't be a straight or a draw
+            if (j == 2) {
                 if (!twoFound)
                     twoFound = true;
-                else return;
+                else if(i != new_value_count.length - 1) return; // if there was already a card with 2 copy and we are checking the last one it's the ace again so you don't have to exit
             } else if (j > 2) return;
-            if (j == 1 || j == 2) {
+            if (j == 1 || j == 2) { //if the card has one or two copy you start the consecutive counter
                 consecutive++;
-                if (consecutive == 5 && gaps == 0) {
+                if (consecutive == 5 && gaps == 0) { // if there are five consecutive it's a straight
                     jugada.updateMap(Jugada.Jugadas.STRAIGHT, true);
                     jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, false);
                     return;
                 }
-                if (consecutive == 4 && gaps == 1) {
+                if (consecutive == 4 && gaps == 1) { //if there's 4 card and a gap is a gutshot
                     jugada.updateMap(Jugada.Jugadas.GUTSHOT, true);
                     return;
-                } else if (consecutive == 4) {
+                } else if (consecutive == 4) { // if there's 4 card with no gap it can be a open ended draw it it's not a straight(that's why this doesn't have the return
                     jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, true);
                 }
 
-            } else if (consecutive != 0) gaps++;
+            } else if (consecutive != 0) gaps++; // if the consecutive already started if there is  hole ++gaps
             if (gaps == 2) {
                 consecutive = 0;
                 gaps = 0;
@@ -195,6 +195,7 @@ public class Game {
         }
     }
 
+    //just for test
     public void measurePerformance(int numberOfHands) {
         long startTime = System.nanoTime();
 

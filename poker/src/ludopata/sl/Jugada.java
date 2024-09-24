@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Jugada {
-
+    //map to keep count of the hand we have
     private Map<Jugadas, Boolean> map = new HashMap<>();
 
     public Jugada() {
