@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
+
 public class Game {
     private final LinkedList<Carta> mano;
 
@@ -14,7 +15,6 @@ public class Game {
     int[] value_count;
     Jugada jugada;
 
-
     public Game() {
         mano = new LinkedList<>();
         suits_cont = new int[4];
@@ -22,11 +22,9 @@ public class Game {
         jugada = new Jugada();
     }
 
-
-
-
     void readInput() {
-        //InputStream in = Main.class.getClassLoader().getResourceAsStream("entrada.txt");
+        // InputStream in =
+        // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Abrir fichero input
             FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
@@ -37,42 +35,23 @@ public class Game {
             while (in.available() > 0) {
                 value = (char) in.read();
                 suit = (char) in.read();
-                switch (suit){
-                    case 'h': suits_cont[0]++; break;
-                    case 'd': suits_cont[1]++; break;
-                    case 'c': suits_cont[2]++; break;
-                    case 's': suits_cont[3]++; break;
-                }
-                switch (value){
-                    case 'A': value_count[0]++; break;
-                    case '2': value_count[1]++; break;
-                    case '3': value_count[2]++; break;
-                    case '4': value_count[3]++; break;
-                    case '5': value_count[4]++; break;
-                    case '6': value_count[5]++; break;
-                    case '7': value_count[6]++; break;
-                    case '8': value_count[7]++; break;
-                    case '9': value_count[8]++; break;
-                    case 'T': value_count[9]++; break;
-                    case 'J': value_count[10]++; break;
-                    case 'Q': value_count[11]++; break;
-                    case 'K': value_count[12]++; break;
-                }
+
+                countSuits_Value(value, suit);
+
                 mano.add(new Carta(value, suit));
             }
 
             // Cerrar fichero
             in.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    String getMano(){
+    String getMano() {
         StringBuilder manostring = new StringBuilder();
-        for(Carta c : mano)
+        for (Carta c : mano)
             manostring.append(c.toString());
         return manostring.toString();
     }
@@ -83,10 +62,10 @@ public class Game {
         try {
             FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output.txt");
             // Scrivere l'output su file
-            String result =  getMano() +  "-Best Hand: " + StrongestJugada ;
-            if(jugada.getValue(Jugada.Jugadas.GUTSHOT))
+            String result = getMano() + "-Best Hand: " + StrongestJugada;
+            if (jugada.getValue(Jugada.Jugadas.GUTSHOT))
                 result += "\n-DRAW: Straight Gutshot";
-            if(jugada.getValue(Jugada.Jugadas.FLUSH_DRAW))
+            if (jugada.getValue(Jugada.Jugadas.FLUSH_DRAW))
                 result += "\n-DRAW: flush";
             out.write(result.getBytes());
             out.close();
@@ -94,31 +73,99 @@ public class Game {
             e.printStackTrace();
         }
     }
-    private Jugada.Jugadas GetStrongestJugada(){
+
+    void countSuits_Value(char value, char suit) {
+        switch (suit) {
+            case 'h':
+                suits_cont[0]++;
+                break;
+            case 'd':
+                suits_cont[1]++;
+                break;
+            case 'c':
+                suits_cont[2]++;
+                break;
+            case 's':
+                suits_cont[3]++;
+                break;
+        }
+        switch (value) {
+            case 'A':
+                value_count[0]++;
+                break;
+            case '2':
+                value_count[1]++;
+                break;
+            case '3':
+                value_count[2]++;
+                break;
+            case '4':
+                value_count[3]++;
+                break;
+            case '5':
+                value_count[4]++;
+                break;
+            case '6':
+                value_count[5]++;
+                break;
+            case '7':
+                value_count[6]++;
+                break;
+            case '8':
+                value_count[7]++;
+                break;
+            case '9':
+                value_count[8]++;
+                break;
+            case 'T':
+                value_count[9]++;
+                break;
+            case 'J':
+                value_count[10]++;
+                break;
+            case 'Q':
+                value_count[11]++;
+                break;
+            case 'K':
+                value_count[12]++;
+                break;
+        }
+    }
+
+    private Jugada.Jugadas GetStrongestJugada() {
         straightFlush();
-        if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH)) return Jugada.Jugadas.STRAIGHT_FLUSH;
+        if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH))
+            return Jugada.Jugadas.STRAIGHT_FLUSH;
         poker();
-        if(jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH)) return Jugada.Jugadas.POKER;
+        if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH))
+            return Jugada.Jugadas.POKER;
         full();
-        if(jugada.getValue(Jugada.Jugadas.FULL_HOUSE)) return Jugada.Jugadas.FULL_HOUSE;
-        if(jugada.getValue(Jugada.Jugadas.FLUSH)) return Jugada.Jugadas.FLUSH;
-        if(jugada.getValue(Jugada.Jugadas.STRAIGHT)) return Jugada.Jugadas.STRAIGHT;
-        if(jugada.getValue(Jugada.Jugadas.TRIO)) return Jugada.Jugadas.TRIO;
-        if (jugada.getValue(Jugada.Jugadas.PAIR)) return Jugada.Jugadas.PAIR;
+        if (jugada.getValue(Jugada.Jugadas.FULL_HOUSE))
+            return Jugada.Jugadas.FULL_HOUSE;
+        if (jugada.getValue(Jugada.Jugadas.FLUSH))
+            return Jugada.Jugadas.FLUSH;
+        if (jugada.getValue(Jugada.Jugadas.STRAIGHT))
+            return Jugada.Jugadas.STRAIGHT;
+        if (jugada.getValue(Jugada.Jugadas.TRIO))
+            return Jugada.Jugadas.TRIO;
+        if (jugada.getValue(Jugada.Jugadas.PAIR))
+            return Jugada.Jugadas.PAIR;
         return Jugada.Jugadas.HIGH_CARD;
     }
 
     // I) Straight Flush
-    private  void straightFlush(){
+    private void straightFlush() {
         Color();
         Straight();
-        if(jugada.getValue(Jugada.Jugadas.FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH)) jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH,true);
+        if (jugada.getValue(Jugada.Jugadas.FLUSH) && jugada.getValue(Jugada.Jugadas.FLUSH))
+            jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH, true);
     }
+
     // II) Poker (four-of-a-kind)
-    public void poker(){
+    public void poker() {
         for (int j : value_count) {
-            if (j == 4){
-                jugada.updateMap(Jugada.Jugadas.POKER,true);
+            if (j == 4) {
+                jugada.updateMap(Jugada.Jugadas.POKER, true);
                 return;
             }
         }
@@ -126,33 +173,38 @@ public class Game {
 
     // III) Full House (El Barco)
     private void full() {
-         trio();
-         pair();
-         if(jugada.getValue(Jugada.Jugadas.TRIO) && jugada.getValue(Jugada.Jugadas.PAIR)) jugada.updateMap(Jugada.Jugadas.FULL_HOUSE,true);
+        trio();
+        pair();
+        if (jugada.getValue(Jugada.Jugadas.TRIO) && jugada.getValue(Jugada.Jugadas.PAIR))
+            jugada.updateMap(Jugada.Jugadas.FULL_HOUSE, true);
     }
 
     // IV) Flush (color)
-    private  void Color(){
-        if(suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5) jugada.updateMap(Jugada.Jugadas.FLUSH,true);
-        if(suits_cont[0] == 4 || suits_cont[1] == 4 || suits_cont[2] == 4 || suits_cont[3] == 4) jugada.updateMap(Jugada.Jugadas.FLUSH_DRAW,true);
+    private void Color() {
+        if (suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5)
+            jugada.updateMap(Jugada.Jugadas.FLUSH, true);
+        if (suits_cont[0] == 4 || suits_cont[1] == 4 || suits_cont[2] == 4 || suits_cont[3] == 4)
+            jugada.updateMap(Jugada.Jugadas.FLUSH_DRAW, true);
 
     }
 
     // V) Straight (escalera)
-    void Straight(){
+    void Straight() {
         int[] new_value_count = new int[value_count.length + 1];
         System.arraycopy(value_count, 0, new_value_count, 0, value_count.length);
         new_value_count[new_value_count.length - 1] = value_count[0];
 
         boolean twoFound = false;
-        int consecutive = 0,gaps = 0;
+        int consecutive = 0, gaps = 0;
         for (int i = 0; i < new_value_count.length; i++) {
             int j = new_value_count[i];
-            if (j == 2 && i != new_value_count.length - 1 ) {
+            if (j == 2 && i != new_value_count.length - 1) {
                 if (!twoFound)
                     twoFound = true;
-                else return;
-            } else if (j > 2) return;
+                else
+                    return;
+            } else if (j > 2)
+                return;
             if (j == 1 || j == 2) {
                 consecutive++;
                 if (consecutive == 5 && gaps == 0) {
@@ -167,20 +219,21 @@ public class Game {
                     jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, true);
                 }
 
-            } else if (consecutive != 0) gaps++;
+            } else if (consecutive != 0)
+                gaps++;
             if (gaps == 2) {
                 consecutive = 0;
                 gaps = 0;
             }
         }
-        }
+    }
 
     // VI) Three-of-a-kind (trio)
     private void trio() {
         for (int j : value_count) {
-            if (j == 3){
-               jugada.updateMap(Jugada.Jugadas.TRIO, true);
-               return;
+            if (j == 3) {
+                jugada.updateMap(Jugada.Jugadas.TRIO, true);
+                return;
             }
         }
     }
@@ -188,7 +241,7 @@ public class Game {
     // VII) Two-pair (pareja)
     private void pair() {
         for (int j : value_count) {
-            if (j == 2){
+            if (j == 2) {
                 jugada.updateMap(Jugada.Jugadas.PAIR, true);
                 return;
             }
@@ -219,7 +272,5 @@ public class Game {
         Arrays.fill(value_count, 0);
         jugada = new Jugada();
     }
-
-
 
 }

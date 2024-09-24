@@ -6,23 +6,20 @@ public class Carta {
 
     private char suit;
 
-    public Carta (char v, char s) {
+    public Carta(char v, char s) {
         value = v;
         suit = s;
     }
 
-    public String toString() {
-        return ""+value+suit;
-    }
-
-    public char Getvalue(){
+    public char getvalue() {
         return value;
     }
 
-    public char Getsuit(){
+    public char getsuit() {
         return suit;
     }
 
+    public String toString() {
+        return "" + value + suit;
+    }
 }
-
-
