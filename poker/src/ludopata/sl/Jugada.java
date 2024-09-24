@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Jugada {
-    //map to keep count of the hand we have
-    private Map<Jugadas, Boolean> map = new HashMap<>();
+
+    private Map<Jugadas, Boolean> map;
 
     public Jugada() {
+        map = new HashMap<>();
+
         map.put(Jugadas.STRAIGHT_FLUSH, false);
         map.put(Jugadas.POKER, false);
         map.put(Jugadas.FULL_HOUSE, false);
@@ -21,15 +23,15 @@ public class Jugada {
         map.put(Jugadas.FLUSH_DRAW, false);
     }
 
-    public void updateMap(Jugadas j, boolean b){
-        map.put(j,b);
-    }
-
-    public boolean getValue(Jugadas j){
+    public boolean getValue(Jugadas j) {
         return map.get(j);
     }
-    public enum Jugadas
-    {
-        STRAIGHT_FLUSH, POKER, FULL_HOUSE, STRAIGHT,FLUSH, TRIO, PAIR, HIGH_CARD,GUTSHOT,OPEN_ENDED,FLUSH_DRAW
+
+    public void updateMap(Jugadas j, boolean b) {
+        map.put(j, b);
+    }
+
+    public enum Jugadas {
+        STRAIGHT_FLUSH, POKER, FULL_HOUSE, STRAIGHT, FLUSH, TRIO, PAIR, HIGH_CARD, GUTSHOT, OPEN_ENDED, FLUSH_DRAW
     }
 }
