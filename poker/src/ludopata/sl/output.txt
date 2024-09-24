@@ -1,4 +1,0 @@
-Conteggio semi: [Cuori: 5, Quadri: 0, Fiori: 0, Picche: 0]
-colore: true
-scala: true
-scala colore: true

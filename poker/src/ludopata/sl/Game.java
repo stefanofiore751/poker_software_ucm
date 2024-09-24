@@ -2,6 +2,7 @@ package ludopata.sl;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.LinkedList;
 public class Game {
     private final LinkedList<Carta> mano;
@@ -24,11 +25,10 @@ public class Game {
 
 
     void readInput() {
-        FileInputStream in = null;
+        InputStream in = Main.class.getClassLoader().getResourceAsStream("entrada.txt");
 
         try {
             // Abrir fichero input
-            in = new FileInputStream("C:\\Users\\stefi\\Documents\\GitHub\\poker_software_ucm\\poker\\src\\ludopata\\sl\\entrada.txt");
 
             char value;
             char suit;
@@ -37,6 +37,7 @@ public class Game {
             while (in.available() > 0) {
                 value = (char) in.read();
                 suit = (char) in.read();
+                System.out.println(value);
                 switch (suit){
                     case 'h': suits_cont[0]++; break;
                     case 'd': suits_cont[1]++; break;
@@ -71,16 +72,15 @@ public class Game {
     }
 
     void writeoutput() {
-        /**try {
-            FileOutputStream out = new FileOutputStream("C:\\Users\\stefi\\Documents\\GitHub\\poker_software_ucm\\poker\\src\\ludopata\\sl\\output.txt");
+        try {
+            FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output.txt");
             // Scrivere l'output su file
-            String result = "Conteggio semi: [Cuori: " + suits_cont[0] + ", Quadri: " + suits_cont[1]
-                    + ", Fiori: " + suits_cont[2] + ", Picche: " + suits_cont[3] + "]\n" + "colore: " + Color() + "\nscala: " + Straight() + "\nscala colore: " + straightFlush();
+            String result = "Conteggio semi: [Cuori: " + suits_cont[0] ;
             out.write(result.getBytes());
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }**/
+        }
     }
     // I) Straight Flush
     private  void straightFlush(){
