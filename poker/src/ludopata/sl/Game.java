@@ -12,9 +12,9 @@ public class Game {
     private final int[] suits_cont;
 
     // Counter number of cards of each kind:
-    private int[] value_count;
+    int[] value_count;
 
-    private Jugada jugada;
+    Jugada jugada;
 
     private final LinkedList<Carta> mano;
 
@@ -192,38 +192,36 @@ public class Game {
     }
 
     // V) Straight (escalera)
-    void Straight() {
-        int[] new_value_count = new int[value_count.length + 1];
-        System.arraycopy(value_count, 0, new_value_count, 0, value_count.length);
-        new_value_count[new_value_count.length - 1] = value_count[0];
+    void Straight(){
+        int[] new_value_count = new int[value_count.length + 1]; // new array to have the ace also at the end
+        System.arraycopy(value_count, 0, new_value_count, 0, value_count.length); //copy of value count
+        new_value_count[new_value_count.length - 1] = value_count[0];//adding the ace
 
         boolean twoFound = false;
-        int consecutive = 0, gaps = 0;
+        int consecutive = 0,gaps = 0;
         for (int i = 0; i < new_value_count.length; i++) {
             int j = new_value_count[i];
-            if (j == 2 && i != new_value_count.length - 1) {
+            //if there's 2 time a card with 2 copy it can't be a straight or a draw
+            if (j == 2) {
                 if (!twoFound)
                     twoFound = true;
-                else
-                    return;
-            } else if (j > 2)
-                return;
-            if (j == 1 || j == 2) {
+                else if(i != new_value_count.length - 1) return; // if there was already a card with 2 copy and we are checking the last one it's the ace again so you don't have to exit
+            } else if (j > 2) return;
+            if (j == 1 || j == 2) { //if the card has one or two copy you start the consecutive counter
                 consecutive++;
-                if (consecutive == 5 && gaps == 0) {
+                if (consecutive == 5 && gaps == 0) { // if there are five consecutive it's a straight
                     jugada.updateMap(Jugada.Jugadas.STRAIGHT, true);
                     jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, false);
                     return;
                 }
-                if (consecutive == 4 && gaps == 1) {
+                if (consecutive == 4 && gaps == 1) { //if there's 4 card and a gap is a gutshot
                     jugada.updateMap(Jugada.Jugadas.GUTSHOT, true);
                     return;
-                } else if (consecutive == 4) {
+                } else if (consecutive == 4) { // if there's 4 card with no gap it can be a open ended draw it it's not a straight(that's why this doesn't have the return
                     jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, true);
                 }
 
-            } else if (consecutive != 0)
-                gaps++;
+            } else if (consecutive != 0) gaps++; // if the consecutive already started if there is  hole ++gaps
             if (gaps == 2) {
                 consecutive = 0;
                 gaps = 0;

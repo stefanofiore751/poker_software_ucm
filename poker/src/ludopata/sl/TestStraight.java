@@ -2,7 +2,7 @@ package ludopata.sl;
 
 import java.util.Arrays;
 
-public class TestStraight {
+public class TestStraight { //just to test the straight method - can be removed
 
     public static void main(String[] args) {
         //testStraightHand();

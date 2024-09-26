@@ -6,9 +6,9 @@ public class Main {
 
         Game mainObj = new Game();
         // Apartado
-                mainObj.readInput();
-                mainObj.writeoutput();
-        //7mainObj.measurePerformance(1000);
+        mainObj.readInput();
+        mainObj.writeoutput();
+        //mainObj.measurePerformance(1000);
     }
 
 
