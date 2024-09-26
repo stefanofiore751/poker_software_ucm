@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import static ludopata.sl.Jugada.*;
+
 public class Game {
     // Counter number of cards of each suit:
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
@@ -18,15 +20,17 @@ public class Game {
 
     private final LinkedList<Carta> mano;
 
+    private final LinkedList<Carta> play;
+
     public Game() {
         suits_cont = new int[4];
         value_count = new int[13];
         jugada = new Jugada();
         mano = new LinkedList<>();
+        play = new LinkedList<>();
     }
 
     void readInput() {
-        // InputStream in =
         // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Open input file
@@ -53,15 +57,15 @@ public class Game {
     }
 
     void writeoutput() {
-        Jugada.Jugadas StrongestJugada = GetStrongestJugada();
+        String StrongestJugada = GetStrongestJugada();
 
         try {
             FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output.txt");
             // Scrivere l'output su file
             String result = getMano() + "-Best Hand: " + StrongestJugada;
-            if (jugada.getValue(Jugada.Jugadas.GUTSHOT))
+            if (jugada.getValue(Jugadas.GUTSHOT))
                 result += "\n-DRAW: Straight Gutshot";
-            if (jugada.getValue(Jugada.Jugadas.FLUSH_DRAW))
+            if (jugada.getValue(Jugadas.FLUSH_DRAW))
                 result += "\n-DRAW: flush";
             out.write(result.getBytes());
             out.close();
@@ -135,40 +139,48 @@ public class Game {
         return manostring.toString();
     }
 
-    private Jugada.Jugadas GetStrongestJugada() {
+    String getPlay() {
+        StringBuilder playstring = new StringBuilder();
+        for (Carta c : play)
+            playstring.append(c.toString());
+        return playstring.toString();
+    }
+
+    private String GetStrongestJugada() {
         straightFlush();
-        if (jugada.getValue(Jugada.Jugadas.STRAIGHT_FLUSH))
-            return Jugada.Jugadas.STRAIGHT_FLUSH;
+        if (jugada.getValue(Jugadas.STRAIGHT_FLUSH))
+            return Jugadas.STRAIGHT_FLUSH.toString();
         poker();
-        if (jugada.getValue(Jugada.Jugadas.POKER))
-            return Jugada.Jugadas.POKER;
+        if (jugada.getValue(Jugadas.POKER))
+            return Jugadas.POKER + " -- " + getPlay();
         full();
-        if (jugada.getValue(Jugada.Jugadas.FULL_HOUSE))
-            return Jugada.Jugadas.FULL_HOUSE;
-        if (jugada.getValue(Jugada.Jugadas.FLUSH))
-            return Jugada.Jugadas.FLUSH;
-        if (jugada.getValue(Jugada.Jugadas.STRAIGHT))
-            return Jugada.Jugadas.STRAIGHT;
-        if (jugada.getValue(Jugada.Jugadas.TRIO))
-            return Jugada.Jugadas.TRIO;
-        if (jugada.getValue(Jugada.Jugadas.PAIR))
-            return Jugada.Jugadas.PAIR;
-        return Jugada.Jugadas.HIGH_CARD;
+        if (jugada.getValue(Jugadas.FULL_HOUSE))
+            return Jugadas.FULL_HOUSE + " -- " + getPlay();
+        if (jugada.getValue(Jugadas.FLUSH))
+            return Jugadas.FLUSH.toString();
+        if (jugada.getValue(Jugadas.STRAIGHT))
+            return Jugadas.STRAIGHT.toString();
+        if (jugada.getValue(Jugadas.TRIO))
+            return Jugadas.TRIO + " -- " + getPlay();
+        if (jugada.getValue(Jugadas.PAIR))
+            return Jugadas.PAIR + " -- " + getPlay();
+        return Jugadas.HIGH_CARD.toString();
     }
 
     // I) Straight Flush
     private void straightFlush() {
         Color();
         Straight();
-        if (jugada.getValue(Jugada.Jugadas.FLUSH) && jugada.getValue(Jugada.Jugadas.STRAIGHT))
-            jugada.updateMap(Jugada.Jugadas.STRAIGHT_FLUSH, true);
+        if (jugada.getValue(Jugadas.FLUSH) && jugada.getValue(Jugadas.STRAIGHT))
+            jugada.updateMap(Jugadas.STRAIGHT_FLUSH, true);
     }
 
     // II) Poker (four-of-a-kind)
     public void poker() {
-        for (int j : value_count) {
-            if (j == 4) {
-                jugada.updateMap(Jugada.Jugadas.POKER, true);
+        for (int i = 0 ; i< value_count.length; i++) {
+            if (value_count[i] == 4) {
+                jugada.updateMap(Jugadas.POKER, true);
+                usedCards(i);
                 return;
             }
         }
@@ -178,16 +190,16 @@ public class Game {
     private void full() {
         trio();
         pair();
-        if (jugada.getValue(Jugada.Jugadas.TRIO) && jugada.getValue(Jugada.Jugadas.PAIR))
-            jugada.updateMap(Jugada.Jugadas.FULL_HOUSE, true);
+        if (jugada.getValue(Jugadas.TRIO) && jugada.getValue(Jugadas.PAIR))
+            jugada.updateMap(Jugadas.FULL_HOUSE, true);
     }
 
     // IV) Flush (color)
     private void Color() {
         if (suits_cont[0] == 5 || suits_cont[1] == 5 || suits_cont[2] == 5 || suits_cont[3] == 5)
-            jugada.updateMap(Jugada.Jugadas.FLUSH, true);
+            jugada.updateMap(Jugadas.FLUSH, true);
         if (suits_cont[0] == 4 || suits_cont[1] == 4 || suits_cont[2] == 4 || suits_cont[3] == 4)
-            jugada.updateMap(Jugada.Jugadas.FLUSH_DRAW, true);
+            jugada.updateMap(Jugadas.FLUSH_DRAW, true);
 
     }
 
@@ -210,15 +222,15 @@ public class Game {
             if (j == 1 || j == 2) { //if the card has one or two copy you start the consecutive counter
                 consecutive++;
                 if (consecutive == 5 && gaps == 0) { // if there are five consecutive it's a straight
-                    jugada.updateMap(Jugada.Jugadas.STRAIGHT, true);
-                    jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, false);
+                    jugada.updateMap(Jugadas.STRAIGHT, true);
+                    jugada.updateMap(Jugadas.OPEN_ENDED, false);
                     return;
                 }
                 if (consecutive == 4 && gaps == 1) { //if there's 4 card and a gap is a gutshot
-                    jugada.updateMap(Jugada.Jugadas.GUTSHOT, true);
+                    jugada.updateMap(Jugadas.GUTSHOT, true);
                     return;
                 } else if (consecutive == 4) { // if there's 4 card with no gap it can be a open ended draw it it's not a straight(that's why this doesn't have the return
-                    jugada.updateMap(Jugada.Jugadas.OPEN_ENDED, true);
+                    jugada.updateMap(Jugadas.OPEN_ENDED, true);
                 }
 
             } else if (consecutive != 0) gaps++; // if the consecutive already started if there is  hole ++gaps
@@ -231,9 +243,10 @@ public class Game {
 
     // VI) Three-of-a-kind (trio)
     private void trio() {
-        for (int j : value_count) {
-            if (j == 3) {
-                jugada.updateMap(Jugada.Jugadas.TRIO, true);
+        for (int i=0; i < value_count.length; i++) {
+            if (value_count[i] == 3) {
+                usedCards(i);
+                jugada.updateMap(Jugadas.TRIO, true);
                 return;
             }
         }
@@ -241,15 +254,76 @@ public class Game {
 
     // VII) Two-pair (pareja)
     private void pair() {
-        for (int j : value_count) {
-            if (j == 2) {
-                jugada.updateMap(Jugada.Jugadas.PAIR, true);
+        for (int i = 0; i < value_count.length; i++) {
+            if (value_count[i] == 2) {
+                usedCards(i);
+                jugada.updateMap(Jugadas.PAIR, true);
                 return;
             }
         }
     }
 
-    public void measurePerformance(int numberOfHands) {
+    private void usedCards(int i) {
+        if(i >= 1 && i <= 8){
+            for(Carta c : mano){
+                if(c.getvalue() == i)
+                    play.add(c);
+            }
+        }
+        switch (i) {
+            case 0:
+                for(Carta c : mano){
+                    if(c.getvalue() == 'A')
+                        play.add(c);
+                }
+                break;
+            case 9:
+                for(Carta c : mano){
+                    if(c.getvalue() == 'T')
+                        play.add(c);
+                }
+                break;
+            case 10:
+                for(Carta c : mano){
+                    if(c.getvalue() == 'J')
+                        play.add(c);
+                }
+                break;
+            case 11:
+                for(Carta c : mano){
+                    if(c.getvalue() == 'Q')
+                        play.add(c);
+                }
+                break;
+            case 12:
+                for(Carta c : mano){
+                    if(c.getvalue() == 'K')
+                        play.add(c);
+                }
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*public void measurePerformance(int numberOfHands) {
         long startTime = System.nanoTime();
 
         for (int i = 0; i < numberOfHands; i++) {
@@ -258,7 +332,7 @@ public class Game {
 
             readInput();
 
-            Jugada.Jugadas strongestHand = GetStrongestJugada();
+            Jugadas strongestHand = GetStrongestJugada();
 
         }
 
@@ -273,5 +347,5 @@ public class Game {
         Arrays.fill(value_count, 0);
         jugada = new Jugada();
     }
-
+*/
 }
