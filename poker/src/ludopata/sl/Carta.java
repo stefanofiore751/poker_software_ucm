@@ -6,9 +6,12 @@ public class Carta {
 
     private char suit;
 
+    private boolean used;
+
     public Carta(char v, char s) {
         value = v;
         suit = s;
+        used = false;
     }
 
     public char getvalue() {
