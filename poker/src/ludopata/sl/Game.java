@@ -2,7 +2,6 @@ package ludopata.sl;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -28,6 +27,13 @@ public class Game {
         jugada = new Jugada();
         mano = new LinkedList<>();
         play = new LinkedList<>();
+    }
+
+    public Game(LinkedList<Carta> mano) {
+        suits_cont = new int[4];
+        value_count = new int[13];
+        jugada = new Jugada();
+        this.mano = mano;
     }
 
     void readInput() {
