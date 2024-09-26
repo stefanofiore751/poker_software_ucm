@@ -5,7 +5,10 @@ public class Main {
     public static void main(String[] args) {
 
         // Apartado
-    	if(args.length < 6)
+    	if(args.length != 6) {
+    		System.out.println("Incorrect arguments");
+    	}
+    	
         int apartado = Integer.parseInt(args[3]);
         
         switch(apartado) {
