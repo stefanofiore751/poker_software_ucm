@@ -18,16 +18,20 @@ public class Game2 extends Game {
     }
 
     void readInput() {
-        // InputStream in =
-        // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
-        try {
+        try{
             // Open input file
             FileInputStream in = new FileInputStream("entrada2.txt");
             char value;
             char suit;
 
-            // Read file entrada2.txt line by line, using readline, not reading the entire txt file and separate by the character ";" into an array of strings
-            String[] line = new String(in.readAllBytes()).split(";");
-    }
+            BufferedReader reader = new BufferedReader(new FileReader(in));
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";");
 
+            //Read file entrada2
+        }catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
