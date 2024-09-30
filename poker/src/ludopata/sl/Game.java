@@ -372,6 +372,36 @@ int straightValue(LinkedList<Carta> mano){
         return aux;
 }
 
+    protected int getJugadaQuality(int playType) {
+        switch (playType) {
+            case 8:
+                return straightValue(play);
+            case 7:
+                return play.get(0).getvalue();
+            case 6:
+                return play.get(0).getvalue();
+            case 5:
+                return bestCard(mano);
+            case 4:
+                return straightValue(play);
+            case 3:
+                return play.get(0).getvalue();
+            case 2:
+                return play.get(0).getvalue();
+            default:
+                return bestCard(mano);
+        }
+    }
+
+    int bestCard(LinkedList<Carta> mano){
+        int aux = 0;
+        for(Carta c : mano){
+            if(aux < c.getvalue())
+                aux = c.getvalue();
+        }
+        return aux;
+    }
+
 
 
 

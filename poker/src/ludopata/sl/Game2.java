@@ -54,7 +54,7 @@ public class Game2 extends Game {
     }
 
     void writeOutput() {
-        int bestIndex = 0, bestPlay = 0; //index of best hand and what the play is
+        int bestIndex = 0, bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
         ICombinatoricsVector<Carta> vector = crearCombinaciones(cards);
         Generator<Carta> gen = createSimpleCombinationGenerator(vector, 5);
         int i = 0;
@@ -64,13 +64,18 @@ public class Game2 extends Game {
                 play.add(carta);
             }
             Game game = new Game(play);
-            int aux = game.getStrongestJugadaInt(); //Get the play of the hand
-            if (aux > bestPlay) { //If the play is the best so far, update the best play and the index
-                bestPlay = aux;
+            int type = game.getStrongestJugadaInt(); //Get the play of the hand
+            int quality = game.getJugadaQuality(type); //Get the quality of the play
+
+            if (type > bestPlayType || (type == bestPlayType && quality > bestPlayQuality)) { //If the play is the best so far, update the best play and the index
+                bestPlayType = type;
+                bestPlayQuality = quality;
                 bestIndex = i;
             }
             i++;
         }
+
+        //TODO: Print the best play with the index i
     }
 
     /*Creates all possible card combinations*/
