@@ -64,12 +64,13 @@ public class Game2 extends Game {
         Generator<Carta> gen = createSimpleCombinationGenerator(vector, 5);
         for (ICombinatoricsVector<Carta> combination : gen) {
             play.clear();
-            System.out.print("Combinazione: ");
+            // just to check if the combination are correct
+            //System.out.print("Combination: ");
 
 
             for (Carta carta : combination) {
                 play.add(carta);
-                System.out.print(carta + " ");
+                //System.out.print(carta + " ");
             }
 
             //System.out.println();
