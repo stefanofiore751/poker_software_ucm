@@ -12,6 +12,7 @@ public class Game {
     // 0 : hearts, 1 : diamonds, 2 : clubs, 3 : spades
     private final int[] suits_cont;
 
+    String strongestJugada;
     // Counter number of cards of each kind:
     int[] value_count;
 
@@ -42,7 +43,8 @@ public class Game {
         // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Open input file
-            FileInputStream in = new FileInputStream("entrada.txt");
+            //FileInputStream in = new FileInputStream("entrada.txt");
+            FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
 
@@ -71,12 +73,11 @@ public class Game {
     }
 
     void writeoutput() {
-        String StrongestJugada = GetStrongestJugada();
-
+      getStrongestJugada();
         try {
-            FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output.txt");
+            FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output2.txt");
             // Scrivere l'output su file
-            String result = getMano() + "-Best Hand: " + StrongestJugada;
+            String result = getMano() + "-Best Hand: " + strongestJugada;
             if (jugada.getValue(Jugadas.GUTSHOT))
                 result += "\n-DRAW: Straight Gutshot";
             if (jugada.getValue(Jugadas.FLUSH_DRAW))
@@ -160,45 +161,39 @@ public class Game {
         return playstring.toString();
     }
 
-    private String GetStrongestJugada() {
+    public int getStrongestJugada() {
         straightFlush();
-        if (jugada.getValue(Jugadas.STRAIGHT_FLUSH))
-            return Jugadas.STRAIGHT_FLUSH.toString();
-        poker();
-        if (jugada.getValue(Jugadas.POKER))
-            return Jugadas.POKER + " -- " + getPlay();
-        full();
-        if (jugada.getValue(Jugadas.FULL_HOUSE))
-            return Jugadas.FULL_HOUSE + " -- " + getPlay();
-        if (jugada.getValue(Jugadas.FLUSH))
-            return Jugadas.FLUSH.toString();
-        if (jugada.getValue(Jugadas.STRAIGHT))
-            return Jugadas.STRAIGHT.toString();
-        if (jugada.getValue(Jugadas.TRIO))
-            return Jugadas.TRIO + " -- " + getPlay();
-        if (jugada.getValue(Jugadas.PAIR))
-            return Jugadas.PAIR + " -- " + getPlay();
-        return Jugadas.HIGH_CARD.toString();
-    }
-
-    public int getStrongestJugadaInt() {
-        straightFlush();
-        if (jugada.getValue(Jugadas.STRAIGHT_FLUSH))
+        if (jugada.getValue(Jugadas.STRAIGHT_FLUSH)){
+            strongestJugada = Jugadas.STRAIGHT_FLUSH.toString();
             return 8;
+        }
         poker();
-        if (jugada.getValue(Jugadas.POKER))
+        if (jugada.getValue(Jugadas.POKER)) {
+            strongestJugada = Jugadas.POKER + " -- " + getPlay();;
             return 7;
+        }
         full();
-        if (jugada.getValue(Jugadas.FULL_HOUSE))
+        if (jugada.getValue(Jugadas.FULL_HOUSE)){
+            strongestJugada = Jugadas.FULL_HOUSE + " -- " + getPlay();
             return 6;
-        if (jugada.getValue(Jugadas.FLUSH))
+        }
+        if (jugada.getValue(Jugadas.FLUSH)) {
+            strongestJugada = Jugadas.FLUSH.toString();
             return 5;
-        if (jugada.getValue(Jugadas.STRAIGHT))
+        }
+        if (jugada.getValue(Jugadas.STRAIGHT)) {
+            strongestJugada = Jugadas.STRAIGHT.toString();
             return 4;
-        if (jugada.getValue(Jugadas.TRIO))
+        }
+        if (jugada.getValue(Jugadas.TRIO)){
+            strongestJugada = Jugadas.TRIO + " -- " + getPlay();
             return 3;
-        if (jugada.getValue(Jugadas.PAIR))
+        }
+        if (jugada.getValue(Jugadas.PAIR)) {
+            strongestJugada = Jugadas.PAIR + " -- " + getPlay();
             return 2;
+        }
+        strongestJugada =Jugadas.HIGH_CARD.toString();
         return 1;
     }
 
@@ -301,7 +296,7 @@ public class Game {
     private void usedCards(int i) {
         if(i >= 1 && i <= 8){
             for(Carta c : mano){
-                if(c.getvalue() == i)
+                if(c.getvalue() - '0' == (i + 1))
                     play.add(c);
             }
         }
@@ -373,24 +368,11 @@ int straightValue(LinkedList<Carta> mano){
 }
 
     protected int getJugadaQuality(int playType) {
-        switch (playType) {
-            case 8:
-                return straightValue(play);
-            case 7:
-                return play.get(0).getvalue();
-            case 6:
-                return play.get(0).getvalue();
-            case 5:
-                return bestCard(mano);
-            case 4:
-                return straightValue(play);
-            case 3:
-                return play.get(0).getvalue();
-            case 2:
-                return play.get(0).getvalue();
-            default:
-                return bestCard(mano);
-        }
+        return switch (playType) {
+            case 8, 4 -> straightValue(play);
+            case 7, 6, 2, 3 -> play.getFirst().getvalue();
+            default -> bestCard(mano);
+        };
     }
 
     int bestCard(LinkedList<Carta> mano){
