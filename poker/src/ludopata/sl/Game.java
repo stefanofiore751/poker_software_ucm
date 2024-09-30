@@ -34,13 +34,15 @@ public class Game {
         value_count = new int[13];
         jugada = new Jugada();
         this.mano = mano;
+        assignCounts(mano);
+        play = new LinkedList<>();
     }
 
     void readInput() {
         // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Open input file
-            FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
+            FileInputStream in = new FileInputStream("entrada.txt");
             char value;
             char suit;
 
@@ -59,6 +61,12 @@ public class Game {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    void assignCounts(LinkedList<Carta> mano){
+        for(Carta c : mano){
+            countSuits_Value(c.getvalue(), c.getsuit());
         }
     }
 
@@ -171,6 +179,27 @@ public class Game {
         if (jugada.getValue(Jugadas.PAIR))
             return Jugadas.PAIR + " -- " + getPlay();
         return Jugadas.HIGH_CARD.toString();
+    }
+
+    public int getStrongestJugadaInt() {
+        straightFlush();
+        if (jugada.getValue(Jugadas.STRAIGHT_FLUSH))
+            return 8;
+        poker();
+        if (jugada.getValue(Jugadas.POKER))
+            return 7;
+        full();
+        if (jugada.getValue(Jugadas.FULL_HOUSE))
+            return 6;
+        if (jugada.getValue(Jugadas.FLUSH))
+            return 5;
+        if (jugada.getValue(Jugadas.STRAIGHT))
+            return 4;
+        if (jugada.getValue(Jugadas.TRIO))
+            return 3;
+        if (jugada.getValue(Jugadas.PAIR))
+            return 2;
+        return 1;
     }
 
     // I) Straight Flush

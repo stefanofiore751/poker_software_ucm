@@ -1,20 +1,24 @@
 package ludopata.sl;
 
+import org.paukov.combinatorics.Generator;
+import org.paukov.combinatorics.ICombinatoricsVector;
+
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.Arrays;
 import java.util.LinkedList;
+
+import static org.paukov.combinatorics.CombinatoricsFactory.createSimpleCombinationGenerator;
+import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 
 public class Game2 extends Game {
 
-    private final LinkedList<Carta> hand;
+    private final LinkedList<Carta> cards;
 
-    private final LinkedList<Carta> table;
+    private final LinkedList<Carta> play;
 
     public Game2() {
         jugada = new Jugada();
-        hand = new LinkedList<>();
-        table = new LinkedList<>();
+        cards = new LinkedList<>();
+        play = new LinkedList<>();
     }
 
     void readInput() {
@@ -24,14 +28,57 @@ public class Game2 extends Game {
             char value;
             char suit;
 
-            BufferedReader reader = new BufferedReader(new FileReader(in));
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
 
-            //Read file entrada2
+            for(int i = 0; i < 2; i++){ //read hand
+                value = (char) in.read();
+                suit = (char) in.read();
+
+                cards.add(new Carta(value, suit));
+            }
+            in.read(); //";
+            int j = in.read(); //how many cards are on the table
+            in.read(); //";"
+            for(int i = 0; i < j; i++){ //read table
+                value = (char) in.read();
+                suit = (char) in.read();
+
+                cards.add(new Carta(value, suit));
+            }
+
+            // Close file
+            in.close();
         }catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    void writeOutput() {
+        int bestIndex = 0, bestPlay = 0; //index of best hand and what the play is
+        ICombinatoricsVector<Carta> vector = crearCombinaciones(cards);
+        Generator<Carta> gen = createSimpleCombinationGenerator(vector, 5);
+        int i = 0;
+        for (ICombinatoricsVector<Carta> combination : gen) {
+            play.clear();
+            for (Carta carta : combination) {
+                play.add(carta);
+            }
+            Game game = new Game(play);
+            int aux = game.getStrongestJugadaInt(); //Get the play of the hand
+            if (aux > bestPlay) { //If the play is the best so far, update the best play and the index
+                bestPlay = aux;
+                bestIndex = i;
+            }
+            i++;
+        }
+    }
+
+    /*Creates all possible card combinations*/
+    ICombinatoricsVector<Carta> crearCombinaciones(LinkedList<Carta>  cards) {
+        ICombinatoricsVector<Carta> combinations = createVector();
+        for(Carta i : cards) {
+            combinations.addValue(i);
+        }
+        return combinations;
     }
 }
