@@ -37,7 +37,7 @@ public class Game2 extends Game {
                 cards.add(new Carta(value, suit));
             }
             in.read(); //";
-            int j = in.read()  - '0' ; //how many cards are on the table
+            int j = in.read()  - '0' ; //how many cards are on the table the -0 is to get the int from the ascii
             in.read(); //";"
             for(int i = 0; i < j; i++){ //read table
                 value = (char) in.read();
