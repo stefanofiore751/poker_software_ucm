@@ -339,7 +339,38 @@ public class Game {
         }
     }
 
-
+int straightValue(LinkedList<Carta> mano){
+        int aux = 0;
+        for(Carta c : mano){
+            switch (c.getvalue()){
+                case 'A':
+                    if(aux < 14)
+                        aux = 14;
+                    break;
+                case 'K':
+                    if(aux < 13)
+                        aux = 13;
+                    break;
+                case 'Q':
+                    if(aux < 12)
+                        aux = 12;
+                    break;
+                case 'J':
+                    if(aux < 11)
+                        aux = 11;
+                    break;
+                case 'T':
+                    if(aux < 10)
+                         aux = 10;
+                    break;
+                default:
+                    if(aux < c.getvalue())
+                        aux = c.getvalue();
+                    break;
+            }
+        }
+        return aux;
+}
 
 
 
