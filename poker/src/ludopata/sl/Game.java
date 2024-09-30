@@ -43,8 +43,8 @@ public class Game {
         // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Open input file
-            //FileInputStream in = new FileInputStream("entrada.txt");
-            FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
+            FileInputStream in = new FileInputStream("entrada.txt");
+            //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
 
@@ -195,6 +195,14 @@ public class Game {
         }
         strongestJugada =Jugadas.HIGH_CARD.toString();
         return 1;
+    }
+
+    protected int getJugadaQuality(int playType) {
+        return switch (playType) {
+            case 8, 4 -> straightValue(play); //straight and straight flush
+            case 7, 6, 2, 3 -> play.getFirst().getvalue(); // poker full house trio and pair
+            default -> bestCard(mano); // flush and high card
+        };
     }
 
     // I) Straight Flush
@@ -367,13 +375,7 @@ int straightValue(LinkedList<Carta> mano){
         return aux;
 }
 
-    protected int getJugadaQuality(int playType) {
-        return switch (playType) {
-            case 8, 4 -> straightValue(play);
-            case 7, 6, 2, 3 -> play.getFirst().getvalue();
-            default -> bestCard(mano);
-        };
-    }
+
 
     int bestCard(LinkedList<Carta> mano){
         int aux = 0;
