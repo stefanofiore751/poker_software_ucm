@@ -24,8 +24,8 @@ public class Game2 extends Game {
     void readInput() {
         try{
             // Open input file
-            //FileInputStream in = new FileInputStream("entrada2.txt");
-            FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada2.txt");
+            FileInputStream in = new FileInputStream("entrada2.txt");
+            //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada2.txt");
             char value;
             char suit;
 
