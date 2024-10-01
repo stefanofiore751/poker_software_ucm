@@ -1,4 +1,7 @@
-package ludopata.sl;
+package controller;
+
+import logic.Game;
+import logic.Game2;
 
 public class Main {
 
