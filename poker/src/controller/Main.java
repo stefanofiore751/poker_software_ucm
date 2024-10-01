@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
+	
+	private static Controller ctrl;
 
     public static void main(String[] args) {
 
