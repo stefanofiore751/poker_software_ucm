@@ -1,4 +1,4 @@
-package ludopata.sl;
+package logic;
 
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
@@ -14,9 +14,9 @@ import static org.paukov.combinatorics.CombinatoricsFactory.createVector;
 
 public class Game2 extends Game {
 
-    private final LinkedList<Carta> cards;
+    private final LinkedList<Card> cards;
 
-    private final LinkedList<Carta> play;
+    private final LinkedList<Card> play;
 
     public Game2() {
         jugada = new Jugada();
@@ -63,7 +63,7 @@ public class Game2 extends Game {
                 value = (char) in.read();
                 suit = (char) in.read();
 
-                cards.add(new Carta(value, suit));
+                cards.add(new Card(value, suit));
             }
             in.read(); //";
             int j = in.read()  - '0' ; //how many cards are on the table the -0 is to get the int from the ascii
@@ -72,7 +72,7 @@ public class Game2 extends Game {
                 value = (char) in.read();
                 suit = (char) in.read();
 
-                cards.add(new Carta(value, suit));
+                cards.add(new Card(value, suit));
             }
 
             // Close file
@@ -87,16 +87,16 @@ public class Game2 extends Game {
     }
     void writeoutput() {
         int  bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
-        ICombinatoricsVector<Carta> vector = crearCombinaciones(cards);
+        ICombinatoricsVector<Card> vector = crearCombinaciones(cards);
         Game bestgame = null;
-        Generator<Carta> gen = createSimpleCombinationGenerator(vector, 5);
-        for (ICombinatoricsVector<Carta> combination : gen) {
+        Generator<Card> gen = createSimpleCombinationGenerator(vector, 5);
+        for (ICombinatoricsVector<Card> combination : gen) {
             play.clear();
             // just to check if the combination are correct
             //System.out.print("Combination: ");
 
 
-            for (Carta carta : combination) {
+            for (Card carta : combination) {
                 play.add(carta);
                 //System.out.print(carta + " ");
             }
@@ -118,10 +118,10 @@ public class Game2 extends Game {
     }
 
     /*Creates all possible card combinations*/
-    ICombinatoricsVector<Carta> crearCombinaciones(LinkedList<Carta>  cards) {
+    ICombinatoricsVector<Card> crearCombinaciones(LinkedList<Card>  cards) {
 
-        ICombinatoricsVector<Carta> combinations = createVector();
-        for(Carta i : cards) {
+        ICombinatoricsVector<Card> combinations = createVector();
+        for(Card i : cards) {
             combinations.addValue(i);
         }
         return combinations;

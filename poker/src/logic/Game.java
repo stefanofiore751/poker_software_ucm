@@ -1,11 +1,11 @@
-package ludopata.sl;
+package logic;
+
+import static logic.Jugada.*;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
-
-import static ludopata.sl.Jugada.*;
 
 public class Game {
     // Counter number of cards of each suit:
@@ -18,9 +18,9 @@ public class Game {
 
     Jugada jugada;
 
-    private final LinkedList<Carta> mano;
+    private final LinkedList<Card> mano;
 
-    private final LinkedList<Carta> play;
+    private final LinkedList<Card> play;
 
     public Game() {
         suits_cont = new int[4];
@@ -30,7 +30,7 @@ public class Game {
         play = new LinkedList<>();
     }
 
-    public Game(LinkedList<Carta> mano) {
+    public Game(LinkedList<Card> mano) {
         suits_cont = new int[4];
         value_count = new int[13];
         jugada = new Jugada();
@@ -55,7 +55,7 @@ public class Game {
 
                 countSuits_Value(value, suit);
 
-                mano.add(new Carta(value, suit));
+                mano.add(new Card(value, suit));
             }
 
             // Close file
@@ -66,8 +66,8 @@ public class Game {
         }
     }
 
-    void assignCounts(LinkedList<Carta> mano){
-        for(Carta c : mano){
+    void assignCounts(LinkedList<Card> mano){
+        for(Card c : mano){
             countSuits_Value(c.getvalue(), c.getsuit());
         }
     }
@@ -148,14 +148,14 @@ public class Game {
 
     String getMano() {
         StringBuilder manostring = new StringBuilder();
-        for (Carta c : mano)
+        for (Card c : mano)
             manostring.append(c.toString());
         return manostring.toString();
     }
 
     String getPlay() {
         StringBuilder playstring = new StringBuilder();
-        for (Carta c : play)
+        for (Card c : play)
             playstring.append(c.toString());
         return playstring.toString();
     }
@@ -302,38 +302,38 @@ public class Game {
 
     private void usedCards(int i) {
         if(i >= 1 && i <= 8){
-            for(Carta c : mano){
+            for(Card c : mano){
                 if(c.getvalue() - '0' == (i + 1))
                     play.add(c);
             }
         }
         switch (i) {
             case 0:
-                for(Carta c : mano){
+                for(Card c : mano){
                     if(c.getvalue() == 'A')
                         play.add(c);
                 }
                 break;
             case 9:
-                for(Carta c : mano){
+                for(Card c : mano){
                     if(c.getvalue() == 'T')
                         play.add(c);
                 }
                 break;
             case 10:
-                for(Carta c : mano){
+                for(Card c : mano){
                     if(c.getvalue() == 'J')
                         play.add(c);
                 }
                 break;
             case 11:
-                for(Carta c : mano){
+                for(Card c : mano){
                     if(c.getvalue() == 'Q')
                         play.add(c);
                 }
                 break;
             case 12:
-                for(Carta c : mano){
+                for(Card c : mano){
                     if(c.getvalue() == 'K')
                         play.add(c);
                 }
@@ -341,9 +341,9 @@ public class Game {
         }
     }
 
-int straightValue(LinkedList<Carta> mano){
+int straightValue(LinkedList<Card> mano){
         int aux = 0;
-        for(Carta c : mano){
+        for(Card c : mano){
             switch (c.getvalue()){
                 case 'A':
                     if(aux < 14)
@@ -376,9 +376,9 @@ int straightValue(LinkedList<Carta> mano){
 
 
 
-    int bestCard(LinkedList<Carta> mano){
+    int bestCard(LinkedList<Card> mano){
         int aux = 0;
-        for(Carta c : mano){
+        for(Card c : mano){
             if(aux < c.getvalue())
                 aux = c.getvalue();
         }

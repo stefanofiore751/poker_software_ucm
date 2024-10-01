@@ -1,4 +1,7 @@
-package ludopata.sl;
+package controller;
+
+import logic.Game;
+import logic.Game2;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package ludopata.sl;
+package logic;
 
 import java.util.Arrays;
 
