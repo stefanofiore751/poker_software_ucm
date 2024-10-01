@@ -75,13 +75,13 @@ public class Game {
     public void writeoutput() {
       getStrongestJugada();
         try {
-            FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output2.txt");
+            FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output2.txt",true);
             // Scrivere l'output su file
-            String result = getMano() + "-Best Hand: " + strongestJugada;
+            String result = getMano() + "\n-Best Hand: " + strongestJugada + "\n";
             if (jugada.getValue(Jugadas.GUTSHOT))
-                result += "\n-DRAW: Straight Gutshot";
+                result += "-DRAW: Straight Gutshot\n";
             if (jugada.getValue(Jugadas.FLUSH_DRAW))
-                result += "\n-DRAW: flush";
+                result += "-DRAW: flush\n";
             out.write(result.getBytes());
             out.close();
         } catch (Exception e) {
