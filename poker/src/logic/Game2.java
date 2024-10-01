@@ -24,7 +24,7 @@ public class Game2 extends Game {
         play = new LinkedList<>();
     }
 
-    void readInput(String handTable) {
+    public void readInput(String handTable) {
 
         char value;
         char suit;
@@ -38,7 +38,7 @@ public class Game2 extends Game {
                 for (int i = 0; i < 2; i++) {
                     value = parti[0].charAt(j++);
                     suit = parti[0].charAt(j++);
-                    cards.add(new Carta(value, suit));
+                    cards.add(new Card(value, suit));
                 }
 
                 j = 0;
@@ -46,7 +46,7 @@ public class Game2 extends Game {
                 for (int i = 0; i < parti[1].charAt(0) - '0'; i++) {
                     value = parti[2].charAt(j++);
                     suit = parti[2].charAt(j++);
-                    cards.add(new Carta(value, suit));
+                    cards.add(new Card(value, suit));
                 }
             }
 
@@ -85,7 +85,7 @@ public class Game2 extends Game {
     void Test(){
 
     }
-    void writeoutput() {
+    public void writeoutput() {
         int  bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
         ICombinatoricsVector<Card> vector = crearCombinaciones(cards);
         Game bestgame = null;
