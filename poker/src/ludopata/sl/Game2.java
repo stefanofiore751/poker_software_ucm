@@ -3,7 +3,10 @@ package ludopata.sl;
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import static org.paukov.combinatorics.CombinatoricsFactory.createSimpleCombinationGenerator;
@@ -21,8 +24,34 @@ public class Game2 extends Game {
         play = new LinkedList<>();
     }
 
-    void readInput() {
-        try{
+    void readInput(String handTable) {
+
+        char value;
+        char suit;
+       // String percorsoFile = "..\\\\poker_software_ucm\\\\poker\\\\resources\\\\entrada2.txt";  // Sostituisci con il percorso reale del file
+
+                // Dividi la riga utilizzando il delimitatore ";"
+                String[] parti = handTable.split(";");
+
+                int j = 0;
+
+                for (int i = 0; i < 2; i++) {
+                    value = parti[0].charAt(j++);
+                    suit = parti[0].charAt(j++);
+                    cards.add(new Carta(value, suit));
+                }
+
+                j = 0;
+
+                for (int i = 0; i < parti[1].charAt(0) - '0'; i++) {
+                    value = parti[2].charAt(j++);
+                    suit = parti[2].charAt(j++);
+                    cards.add(new Carta(value, suit));
+                }
+            }
+
+
+        /*try{
             // Open input file
             FileInputStream in = new FileInputStream("entrada2.txt");
             //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada2.txt");
@@ -51,8 +80,7 @@ public class Game2 extends Game {
         }catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-    }
+        }*/
 
     void Test(){
 
