@@ -39,7 +39,7 @@ public class Game {
         play = new LinkedList<>();
     }
 
-    void readInput() {
+    public void readInput() {
         // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
         try {
             // Open input file
@@ -72,7 +72,7 @@ public class Game {
         }
     }
 
-    void writeoutput() {
+    public void writeoutput() {
       getStrongestJugada();
         try {
             FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output2.txt");

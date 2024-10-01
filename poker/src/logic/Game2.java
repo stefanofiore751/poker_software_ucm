@@ -21,7 +21,7 @@ public class Game2 extends Game {
         play = new LinkedList<>();
     }
 
-    void readInput() {
+    public void readInput() {
         try{
             // Open input file
             FileInputStream in = new FileInputStream("entrada2.txt");
@@ -57,7 +57,7 @@ public class Game2 extends Game {
     void Test(){
 
     }
-    void writeoutput() {
+    public void writeoutput() {
         int  bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
         ICombinatoricsVector<Card> vector = crearCombinaciones(cards);
         Game bestgame = null;
