@@ -18,6 +18,8 @@ public class Game2 extends Game {
 
     private final LinkedList<Card> play;
 
+    private int numPlayers;
+
     public Game2() {
         jugada = new Jugada();
         cards = new LinkedList<>();
@@ -32,6 +34,7 @@ public class Game2 extends Game {
 
                 // Dividi la riga utilizzando il delimitatore ";"
                 String[] parti = handTable.split(";");
+                numPlayers = parti[0].charAt(0); //how many players are playing
 
                 int j = 0;
 
@@ -43,7 +46,7 @@ public class Game2 extends Game {
 
                 j = 0;
 
-                for (int i = 0; i < parti[1].charAt(0) - '0'; i++) {
+                for (int i = 0; i < numPlayers; i++) {
                     value = parti[2].charAt(j++);
                     suit = parti[2].charAt(j++);
                     cards.add(new Card(value, suit));
