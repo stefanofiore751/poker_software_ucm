@@ -341,11 +341,12 @@ public class Game {
                 break;
         }
     }
-
-int straightValue(LinkedList<Card> mano){
-        int aux = 0;
-        for(Card c : mano){
-            switch (c.getvalue()){
+    
+    int straightValue(LinkedList<Card> mano) {
+    	int aux = 0;
+    	
+        for(Card c : mano) {
+            switch (c.getvalue()) {
                 case 'A':
                     if(aux < 14)
                         aux = 14;
@@ -373,7 +374,7 @@ int straightValue(LinkedList<Card> mano){
             }
         }
         return aux;
-}
+    }
 
 
 
@@ -385,15 +386,6 @@ int straightValue(LinkedList<Card> mano){
         }
         return aux;
     }
-
-
-
-
-
-
-
-
-
 
 
 
