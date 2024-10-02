@@ -19,6 +19,8 @@ public class Game {
     // Counter number of cards of each kind:
     int[] value_count;
 
+    private int type = 0, quality = 0;
+
     Play jugada;
 
     private final LinkedList<Card> mano;
@@ -37,9 +39,21 @@ public class Game {
         suits_cont = new int[4];
         value_count = new int[13];
         jugada = new Play();
-        this.mano = mano;
+        this.mano = new LinkedList<>(mano);
         assignCounts(mano);
         play = new LinkedList<>();
+    }
+
+    public String getBestPlay(){
+        return strongestJugada;
+    }
+
+    public int getType(){
+        return type;
+    }
+
+    public int getQuality(){
+        return quality;
     }
 
     public void readInput(String inputFile) {
@@ -75,7 +89,8 @@ public class Game {
     }
 
     public void writeoutput(String outputFile) {
-      getStrongestJugada();
+        if(strongestJugada == null)
+            getStrongestJugada();
         try {
             FileOutputStream out = new FileOutputStream(outputFile,true);
             // Scrivere l'output su file
@@ -167,43 +182,51 @@ public class Game {
         straightFlush();
         if (jugada.getValue(Plays.STRAIGHT_FLUSH)){
             strongestJugada = Plays.STRAIGHT_FLUSH.toString();
+            type = 8;
             return 8;
         }
         poker();
         if (jugada.getValue(Plays.POKER)) {
-            strongestJugada = Plays.POKER + " -- " + getPlay();;
+            strongestJugada = Plays.POKER + " -- " + getPlay();
+            type = 7;
             return 7;
         }
         full();
         if (jugada.getValue(Plays.FULL_HOUSE)){
             strongestJugada = Plays.FULL_HOUSE + " -- " + getPlay();
+            type = 6;
             return 6;
         }
         if (jugada.getValue(Plays.FLUSH)) {
             strongestJugada = Plays.FLUSH.toString();
+            type = 5 ;
             return 5;
         }
         if (jugada.getValue(Plays.STRAIGHT)) {
             strongestJugada = Plays.STRAIGHT.toString();
+            type = 4;
             return 4;
         }
         if (jugada.getValue(Plays.TRIO)){
             strongestJugada = Plays.TRIO + " -- " + getPlay();
+            type = 3;
             return 3;
         }
         if (jugada.getValue(Plays.PAIR)) {
             strongestJugada = Plays.PAIR + " -- " + getPlay();
+            type = 2;
             return 2;
         }
         strongestJugada =Plays.HIGH_CARD.toString();
+        type = 1;
         return 1;
     }
 
     protected int getJugadaQuality(int playType) {
         return switch (playType) {
-            case 8, 4 -> straightValue(play); //straight and straight flush
-            case 7, 6, 2, 3 -> play.getFirst().getvalue(); // poker full house trio and pair
-            default -> bestCard(mano); // flush and high card
+            case 8,6, 4 -> straightValue(mano); //straight and straight flush
+            case 7, 2, 3 -> straightValue(play); // poker  trio and pair
+            default -> straightValue(mano); // flush and high card
         };
     }
 
@@ -350,41 +373,36 @@ public class Game {
         for(Card c : mano) {
             switch (c.getvalue()) {
                 case 'A':
-                    if(aux < 14)
-                        aux = 14;
+                    if(aux < 14){
+                        quality = 14;
+                        aux = 14;}
                     break;
                 case 'K':
-                    if(aux < 13)
-                        aux = 13;
+                    if(aux < 13){
+                        quality = 13;
+                        aux = 13;}
                     break;
                 case 'Q':
-                    if(aux < 12)
-                        aux = 12;
+                    if(aux < 12){
+                        quality = 12;
+                        aux = 12;}
                     break;
                 case 'J':
-                    if(aux < 11)
-                        aux = 11;
+                    if(aux < 11){
+                        quality = 11;
+                        aux = 11;}
                     break;
                 case 'T':
-                    if(aux < 10)
-                         aux = 10;
+                    if(aux < 10){
+                        quality = 10;
+                         aux = 10;}
                     break;
                 default:
-                    if(aux < c.getvalue())
-                        aux = c.getvalue();
+                    if(aux < c.getvalue() - '0'){
+                        quality = c.getvalue() - '0';
+                        aux = c.getvalue() - '0';}
                     break;
             }
-        }
-        return aux;
-    }
-
-
-
-    int bestCard(LinkedList<Card> mano){
-        int aux = 0;
-        for(Card c : mano){
-            if(aux < c.getvalue())
-                aux = c.getvalue();
         }
         return aux;
     }

@@ -1,3 +1,7 @@
 AhAcQhJhTh-Best Hand: PAIR -- AhAcAhAc
 -DRAW: Straight Gutshot
+-DRAW: flushAhAcQhJhTh
+
+-Best Hand: PAIR -- AhAc
+-DRAW: Straight Gutshot
 -DRAW: flush

@@ -18,14 +18,16 @@ public class Game2 extends Game {
 
     private final LinkedList<Card> cards;
 
-    private final LinkedList<Card> play;
 
     private int numPlayers;
 
     public Game2() {
         jugada = new Play();
         cards = new LinkedList<>();
-        play = new LinkedList<>();
+    }
+
+    public void addCards(LinkedList<Card> cards) {
+        this.cards.addAll(cards);
     }
 
     public void readInput(String handTable) {
@@ -53,13 +55,15 @@ public class Game2 extends Game {
                 }
             }
 
-    void Test(){
-
+    public void writeoutput(String outputFIle){
+        Game bestgame = calculateBestHand();
+        bestgame.writeoutput(outputFIle);
     }
-    public void writeoutput(String outputFIle) {
+    public Game calculateBestHand() {
         int  bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
         ICombinatoricsVector<Card> vector = crearCombinaciones(cards);
         Game bestgame = null;
+        LinkedList <Card> play = new LinkedList<>();
         Generator<Card> gen = createSimpleCombinationGenerator(vector, 5);
         for (ICombinatoricsVector<Card> combination : gen) {
             play.clear();
@@ -73,7 +77,9 @@ public class Game2 extends Game {
             }
 
             //System.out.println();
-            Game game = new Game(play);
+            LinkedList<Card> play2 = new LinkedList<>();
+            play2 = play;
+            Game game = new Game(play2);
             int type = game.getStrongestJugada(); //Get the play of the hand
             int quality = game.getJugadaQuality(type); //Get the quality of the play
 
@@ -83,9 +89,7 @@ public class Game2 extends Game {
                 bestgame = game;
             }
         }
-        if (bestgame != null) {
-            bestgame.writeoutput(outputFIle);
-            }
+        return bestgame;
     }
 
     /*Creates all possible card combinations*/

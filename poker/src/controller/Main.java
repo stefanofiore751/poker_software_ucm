@@ -2,6 +2,7 @@ package controller;
 
 import logic.Game;
 import logic.Game2;
+import logic.Game3;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,6 +67,15 @@ public class Main {
 
     // TODO CASE 3
     private static void game3Start(String inputFile, String outputFile) {
-        System.out.println("");
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Game3 game = new Game3();
+                game.readInput(line);
+                game.writeoutput(outputFile);  // write on output file
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
