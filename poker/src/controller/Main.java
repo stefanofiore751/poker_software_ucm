@@ -15,14 +15,14 @@ public class Main {
     public static void main(String[] args) {
 
         if (args.length != 3) {
-            System.out.println("Incorrect arguments. Usage: java -jar nombreProyecto.jar <caseNumber> <inputFile> <outputFile>");
+            System.out.println("Incorrect arguments. Usage: java -jar PokerProject.jar <caseNumber> <inputFile> <outputFile>");
             return;
         }
 
-        // Legge gli argomenti
-        int caseNumber = Integer.parseInt(args[0]); // Numero del caso
-        String inputFile = args[1]; // File di input
-        String outputFile = args[2]; // File di output
+        // read arguments
+        int caseNumber = Integer.parseInt(args[0]); // case number
+        String inputFile = args[1]; // input file
+        String outputFile = args[2]; //output file
 
         switch (caseNumber) {
             case 1:
@@ -43,13 +43,12 @@ public class Main {
     }
     private static void game1Start(String inputFile, String outputFile) {
         Game mainObj = new Game();
-        mainObj.readInput(inputFile);  // Legge dal file di input
-        mainObj.writeoutput(outputFile);  // Scrive nel file di output
+        mainObj.readInput(inputFile);  // read from input file
+        mainObj.writeoutput(outputFile);  // write on output file
     }
 
     // Metodo per il caso 2
     private static void game2Start(String inputFile, String outputFile) {
-        // Elimina il file di output esistente, se c'è
         File file = new File(outputFile);
         file.delete();
 
@@ -58,16 +57,15 @@ public class Main {
             while ((linea = reader.readLine()) != null) {
                 Game2 game = new Game2();
                 game.readInput(linea);
-                game.writeoutput(outputFile);  // Scrive nel file di output
+                game.writeoutput(outputFile);  // write on output file
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Metodo per il caso 3 (aggiungere la logica se necessario)
+    // TODO CASE 3
     private static void game3Start(String inputFile, String outputFile) {
-        // Aggiungi la logica per il caso 3 qui
-        System.out.println("Game 3 logic goes here.");
+        System.out.println("");
     }
 }
