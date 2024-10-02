@@ -1,10 +1,9 @@
+package model;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Plays {
-    STRAIGHT_FLUSH, POKER, FULL_HOUSE, STRAIGHT, FLUSH, TRIO, PAIR,
-    	HIGH_CARD, GUTSHOT, OPEN_ENDED, FLUSH_DRAW
-}
+
 
 public class Play {
 	private Map<Plays, Boolean> map;
@@ -31,5 +30,10 @@ public class Play {
 
     public void updateMap(Plays j, boolean b) {
         map.put(j, b);
+    }
+
+    public enum Plays {
+        STRAIGHT_FLUSH, POKER, FULL_HOUSE, STRAIGHT, FLUSH, TRIO, PAIR,
+        HIGH_CARD, GUTSHOT, OPEN_ENDED, FLUSH_DRAW
     }
 }

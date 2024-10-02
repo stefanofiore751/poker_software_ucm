@@ -1,9 +1,11 @@
-package logic;
+package model;
+
+import model.Card;
 
 import java.util.LinkedList;
 
 public class Hand {
-	
+
     private final LinkedList<Card> _hand;
     
     public Hand() {

@@ -1,5 +1,7 @@
 package logic;
 
+import model.Card;
+
 import java.util.LinkedList;
 
 public class Player {

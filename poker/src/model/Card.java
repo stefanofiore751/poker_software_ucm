@@ -1,4 +1,4 @@
-package logic;
+package model;
 
 import logic.Suits;
 

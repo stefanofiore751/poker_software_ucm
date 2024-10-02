@@ -1,4 +1,6 @@
-package logic;
+package model;
+
+
 
 import java.util.LinkedList;
 

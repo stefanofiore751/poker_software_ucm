@@ -1,5 +1,6 @@
 package logic;
 
+import model.Play;
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
 
@@ -7,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import model.Card;
 import java.util.LinkedList;
 
 import static org.paukov.combinatorics.CombinatoricsFactory.createSimpleCombinationGenerator;
@@ -21,7 +23,7 @@ public class Game2 extends Game {
     private int numPlayers;
 
     public Game2() {
-        jugada = new Jugada();
+        jugada = new Play();
         cards = new LinkedList<>();
         play = new LinkedList<>();
     }
@@ -34,7 +36,7 @@ public class Game2 extends Game {
 
                 // Dividi la riga utilizzando il delimitatore ";"
                 String[] parti = handTable.split(";");
-                numPlayers = parti[0].charAt(0); //how many players are playing
+                int numCardsTable = parti[1].charAt(0) - '0'; //how many players are playing
 
                 int j = 0;
 
@@ -46,44 +48,12 @@ public class Game2 extends Game {
 
                 j = 0;
 
-                for (int i = 0; i < numPlayers; i++) {
+                for (int i = 0; i < numCardsTable; i++) {
                     value = parti[2].charAt(j++);
                     suit = parti[2].charAt(j++);
                     cards.add(new Card(value, suit));
                 }
             }
-
-
-        /*try{
-            // Open input file
-            FileInputStream in = new FileInputStream("entrada2.txt");
-            //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada2.txt");
-            char value;
-            char suit;
-
-
-            for(int i = 0; i < 2; i++){ //read hand
-                value = (char) in.read();
-                suit = (char) in.read();
-
-                cards.add(new Card(value, suit));
-            }
-            in.read(); //";
-            int j = in.read()  - '0' ; //how many cards are on the table the -0 is to get the int from the ascii
-            in.read(); //";"
-            for(int i = 0; i < j; i++){ //read table
-                value = (char) in.read();
-                suit = (char) in.read();
-
-                cards.add(new Card(value, suit));
-            }
-
-            // Close file
-            in.close();
-        }catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
 
     void Test(){
 

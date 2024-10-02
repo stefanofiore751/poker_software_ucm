@@ -1,4 +1,4 @@
-package logic;
+/*package logic;
 
 import java.util.Arrays;
 
@@ -109,4 +109,4 @@ public class TestStraight { //just to test the straight method - can be removed
         System.out.println("\nOpenHand: " +game.jugada.getValue(Jugada.Jugadas.OPEN_ENDED));
         System.out.println("\nGutshot: " +game.jugada.getValue(Jugada.Jugadas.GUTSHOT));
     }
-}
+}*/
