@@ -32,11 +32,9 @@ public class Game2 extends Game {
 
         char value;
         char suit;
-       // String percorsoFile = "..\\\\poker_software_ucm\\\\poker\\\\resources\\\\entrada2.txt";  // Sostituisci con il percorso reale del file
 
-                // Dividi la riga utilizzando il delimitatore ";"
                 String[] parti = handTable.split(";");
-                int numCardsTable = parti[1].charAt(0) - '0'; //how many players are playing
+                int numCardsTable = parti[1].charAt(0) - '0'; //how many card are on the table
 
                 int j = 0;
 
@@ -58,7 +56,7 @@ public class Game2 extends Game {
     void Test(){
 
     }
-    public void writeoutput() {
+    public void writeoutput(String outputFIle) {
         int  bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
         ICombinatoricsVector<Card> vector = crearCombinaciones(cards);
         Game bestgame = null;
@@ -86,7 +84,7 @@ public class Game2 extends Game {
             }
         }
         if (bestgame != null) {
-            bestgame.writeoutput();
+            bestgame.writeoutput(outputFIle);
             }
     }
 

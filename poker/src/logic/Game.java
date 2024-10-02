@@ -42,11 +42,10 @@ public class Game {
         play = new LinkedList<>();
     }
 
-    public void readInput() {
-        // Main.class.getClassLoader().getResourceAsStream("entrada.txt");
+    public void readInput(String inputFile) {
         try {
             // Open input file
-            FileInputStream in = new FileInputStream("entrada.txt");
+            FileInputStream in = new FileInputStream(inputFile);
             //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
@@ -75,10 +74,10 @@ public class Game {
         }
     }
 
-    public void writeoutput() {
+    public void writeoutput(String outputFile) {
       getStrongestJugada();
         try {
-            FileOutputStream out = new FileOutputStream("..\\poker_software_ucm\\poker\\resources\\output2.txt",true);
+            FileOutputStream out = new FileOutputStream(outputFile,true);
             // Scrivere l'output su file
             String result = getMano() + "\n-Best Hand: " + strongestJugada + "\n";
             if (jugada.getValue(Plays.GUTSHOT))
