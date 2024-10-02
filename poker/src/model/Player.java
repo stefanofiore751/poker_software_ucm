@@ -1,25 +1,24 @@
 package model;
 
-
-
 import java.util.LinkedList;
 
 public class Player {
-    private final LinkedList<Card> cards;
+	
+    private final Hand _hand;
 
     public Player() {
-        cards = new LinkedList<>();
+        _hand = new Hand();
     }
 
     public Player(LinkedList<Card> cards) {
-        this.cards = cards;
+    	_hand = new Hand(cards);
     }
 
     public void addCard(Card card) {
-        cards.add(card);
+        _hand.addCard(card);
     }
 
     public LinkedList<Card> getCards() {
-        return cards;
+        return _hand.getHand();
     }
 }
