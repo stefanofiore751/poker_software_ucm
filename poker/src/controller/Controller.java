@@ -25,6 +25,8 @@ public class Controller {
 	private FileReader _input;
 	
 	private FileWriter _output;
+
+    private int _numero;
 	
 	public Controller(FileReader inputFile, FileWriter outputFile) throws Exception {
 		_game = new Game();
@@ -37,6 +39,33 @@ public class Controller {
 	//BufferedWriter writer = new BufferedWriter(outputFile);
 	
 	// - CASE I -
+    void setGame(int num) {
+        _numero = num;
+    }
+
+    void read() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                if(_numero == 1) {
+                    _game.readInput(linea);
+                    writeC1(linea);  // write on output file
+                } else if(_numero == 2) {
+                    Game2 game = new Game2();
+                    game.readInput(linea);
+                    game.writeoutput(outputFile, linea);
+                } else {
+                    Game3 game = new Game3();
+                    game.readInput(linea);
+                    game.writeoutput(outputFile, linea);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
 	// Method which reads from the input file in the first case
 	public void readC1() {
 		try {
@@ -62,18 +91,19 @@ public class Controller {
             e.printStackTrace();
         }
 	}
-	
+	*/
 	// Method which writes from the output file in the first case
-	public void writeC1() {
+	public void writeC1(String linea) {
 		_game.checkStrongestJugada();
         try {
             FileOutputStream out = new FileOutputStream(outputFile,true);
             // Scrivere l'output su file
-            String result = _game.getMano() + "\n-Best Hand: " + _game.getStrongestJugada() + "\n";
+            String result = linea + "\n-Best Hand: " + _game.getBestPlay() + "\n";
             if (_game.getJugada().getValue(Plays.GUTSHOT))
                 result += "-DRAW: Straight Gutshot\n";
             if (_game.getJugada().getValue(Plays.FLUSH_DRAW))
                 result += "-DRAW: flush\n";
+            result += "\n";
             out.write(result.getBytes());
             out.close();
         } catch (Exception e) {

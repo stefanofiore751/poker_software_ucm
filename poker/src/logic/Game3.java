@@ -2,6 +2,7 @@ package logic;
 
 import model.Card;
 import model.Play;
+import model.Player;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -89,16 +90,17 @@ public class Game3 extends Game2 {
         }*/
     }
 
-    public void writeoutput(String outputFile) {
+    public void writeoutput(String outputFile, String line) {
         rankPlayer();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             // Write the table cards
-            StringBuilder tableString = new StringBuilder();
+            /*StringBuilder tableString = new StringBuilder();
             for (Card card : table) {
                 tableString.append(card.toString());
             }
 
-            writer.write(tableString + "\n");
+            writer.write(tableString + "\n");*/
+            writer.write(line + "\n");
 
             // Write the players with their best hands
             for (Player player : players) {
@@ -107,6 +109,8 @@ public class Game3 extends Game2 {
                 String handType = playerBestGame.getBestPlay(); // Assuming you have a method to get the hand type
                 writer.write(player.getPlayerID() + ": " + playString + " (" + handType + ")\n");
             }
+
+            writer.write("\n");
 
         } catch (IOException e) {
             e.printStackTrace();

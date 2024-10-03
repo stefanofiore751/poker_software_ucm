@@ -40,19 +40,22 @@ public class Main {
                 //game1Start(inputFile, outputFile);
             	// -->
             	//mainObj.readInput(inputFile);  // read from input file
-            	ctrl.readC1();
+            	//ctrl.readC1();
             	//mainObj.writeoutput(outputFile);  // write on output file
-            	ctrl.writeC1();
+            	//ctrl.writeC1();
+                ctrl.setGame(1);
                 break;
             case 2:
             	//game2Start(inputFile, outputFile);
-            	ctrl.readC2();
-            	ctrl.writeC2();
+            	//ctrl.readC2();
+            	//ctrl.writeC2();
+                ctrl.setGame(2);
                 break;
             case 3:
                 //game3Start(inputFile, outputFile);
-            	ctrl.readC3();
-            	ctrl.writeC3();
+            	//ctrl.readC3();
+            	//ctrl.writeC3();
+                ctrl.setGame(3);
                 break;
             default:
                 System.out.println("Invalid case number. Use 1, 2, or 3.");

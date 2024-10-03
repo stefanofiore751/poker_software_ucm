@@ -18,7 +18,7 @@ public class Card {
         _value = v;
         _suit = s;
         parseValue(v);
-        assignSuit(v);
+        assignSuit(s);
         _used = false;
     }
 
@@ -86,8 +86,8 @@ public class Card {
 		}
     }
     
-    private void assignSuit(char value) {
-    	switch(value) {
+    private void assignSuit(char s) {
+    	switch(s) {
 			case 'h':
 				suit = Suits.h;
 				break;

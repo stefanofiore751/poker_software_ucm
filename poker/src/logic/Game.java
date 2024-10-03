@@ -88,22 +88,28 @@ public class Game {
         }
     }
 
-    public void writeoutput(String outputFile) {
+    public void writeoutput(String outputFile, String line) {
         if(strongestJugada == null)
             getStrongestJugada();
         try {
             FileOutputStream out = new FileOutputStream(outputFile,true);
             // Scrivere l'output su file
-            String result = getMano() + "\n-Best Hand: " + strongestJugada + "\n";
+            String result = line + "\n-Best Hand: " + strongestJugada + "\n";
             if (jugada.getValue(Plays.GUTSHOT))
                 result += "-DRAW: Straight Gutshot\n";
             if (jugada.getValue(Plays.FLUSH_DRAW))
                 result += "-DRAW: flush\n";
+            result += "\n";
             out.write(result.getBytes());
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    void checkStrongestJugada() {
+        if(strongestJugada == null)
+            getStrongestJugada();
     }
 
     void countSuits_Value(char value, char suit) {
@@ -162,6 +168,10 @@ public class Game {
                 value_count[12]++;
                 break;
         }
+    }
+
+    void updateHand(Hand hand){
+        mano.addAll(hand.getHand());
     }
 
     String getMano() {

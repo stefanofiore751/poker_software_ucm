@@ -55,9 +55,9 @@ public class Game2 extends Game {
                 }
             }
 
-    public void writeoutput(String outputFIle){
+    public void writeoutput(String outputFIle, String line){
         Game bestgame = calculateBestHand();
-        bestgame.writeoutput(outputFIle);
+        bestgame.writeoutput(outputFIle, line);
     }
     public Game calculateBestHand() {
         int  bestPlayType = 0, bestPlayQuality = 0; //index of best hand and what the play is
