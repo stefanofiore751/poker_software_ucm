@@ -56,30 +56,23 @@ public class Game {
         return quality;
     }
 
-    public void readInput(String inputFile) {
-        try {
+    public void readInput(String input) {
             // Open input file
-            FileInputStream in = new FileInputStream(inputFile);
+            //FileInputStream in = new FileInputStream(inputFile);
             //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
-
-            // Read file
-            while (in.available() > 0) {
-                value = (char) in.read();
-                suit = (char) in.read();
+            int i =0;
+            while( i < input.length()){
+                value =  input.charAt(i++);
+                suit = input.charAt(i++);
 
                 countSuits_Value(value, suit);
 
                 mano.add(new Card(value, suit));
             }
-
             // Close file
-            in.close();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
     }
 
     void assignCounts(LinkedList<Card> mano){

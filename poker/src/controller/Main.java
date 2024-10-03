@@ -43,15 +43,22 @@ public class Main {
 
     }
     private static void game1Start(String inputFile, String outputFile) {
-        Game mainObj = new Game();
-        mainObj.readInput(inputFile);  // read from input file
-        mainObj.writeoutput(outputFile);  // write on output file
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                Game mainObj = new Game();
+                mainObj.readInput(linea);  // read from input file
+                mainObj.writeoutput(outputFile);  // write on output file
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Metodo per il caso 2
     private static void game2Start(String inputFile, String outputFile) {
-        File file = new File(outputFile);
-        file.delete();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String linea;
@@ -65,7 +72,6 @@ public class Main {
         }
     }
 
-    // TODO CASE 3
     private static void game3Start(String inputFile, String outputFile) {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String line;
