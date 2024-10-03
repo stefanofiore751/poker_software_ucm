@@ -3,6 +3,8 @@ package controller;
 import logic.Game;
 import logic.Game2;
 import logic.Game3;
+import logic.gameOmaha;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,6 +37,9 @@ public class Main {
             case 3:
                 game3Start(inputFile, outputFile);
                 break;
+            case 4:
+                game4Start(inputFile, outputFile);
+                break;
             default:
                 System.out.println("Invalid case number. Use 1, 2, or 3.");
                 break;
@@ -42,8 +47,10 @@ public class Main {
 
 
     }
-    private static void game1Start(String inputFile, String outputFile) {
 
+    private static void game1Start(String inputFile, String outputFile) {
+        File file = new File(outputFile);
+        file.delete();
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -59,7 +66,8 @@ public class Main {
 
     // Metodo per il caso 2
     private static void game2Start(String inputFile, String outputFile) {
-
+        File file = new File(outputFile);
+        file.delete();
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -73,6 +81,8 @@ public class Main {
     }
 
     private static void game3Start(String inputFile, String outputFile) {
+        File file = new File(outputFile);
+        file.delete();
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -84,4 +94,20 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+    private static void game4Start(String inputFile, String outputFile) {
+        File file = new File(outputFile);
+        file.delete();
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+               gameOmaha game = new gameOmaha();
+                game.readInput(line);
+                game.writeoutput(outputFile);  // write on output file
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

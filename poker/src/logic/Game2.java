@@ -19,8 +19,6 @@ public class Game2 extends Game {
     private final LinkedList<Card> cards;
 
 
-    private int numPlayers;
-
     public Game2() {
         jugada = new Play();
         cards = new LinkedList<>();
