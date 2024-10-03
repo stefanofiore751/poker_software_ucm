@@ -1,10 +1,12 @@
 package model;
 
+import logic.Game;
+
 import java.util.LinkedList;
 
 public class Player {
     private String playerID;
-    private final Hand _hand;
+    private Hand _hand;
     private Game bestGame;
 
     public Player(String playerID, Card card1, Card card2) {
@@ -18,8 +20,8 @@ public class Player {
         _hand = new Hand(cards);
     }
 
-    public Player() {
-        cards = new LinkedList<>();
+    public Player(Hand hand) {
+        _hand = hand;
     }
 
     public void addCard(Card card) {

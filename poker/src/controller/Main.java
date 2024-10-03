@@ -3,21 +3,15 @@ package controller;
 import logic.Game;
 import logic.Game2;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
 	
 	// (Alba) I changed the following files: Suits, Player, Hand, Controller, Game and Main
 	// Im not done with the changes in order to have only one Game and do properly the MVC,
 	// but I tried at least to fix some of it so you can see how we have to do it
-	
-	private static Controller ctrl;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         if (args.length != 3) {
             System.out.println("Incorrect arguments. Usage: java -jar PokerProject.jar <caseNumber> <inputFile> <outputFile>");
@@ -31,8 +25,8 @@ public class Main {
         //String outputFile = args[2];
 		FileReader fileReader = new FileReader(args[1]); //args[1] = inputFile
 		FileWriter fileWriter = new FileWriter(args[2]); //args[2] = outputFile
-		
-        ctrl = new Controller(fileReader, fileWriter);
+
+        Controller ctrl = new Controller(fileReader, fileWriter);
         
         // CASES
         switch (caseNumber) {

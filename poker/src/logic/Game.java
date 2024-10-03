@@ -2,6 +2,7 @@ package logic;
 
 import model.Card;
 
+import model.Hand;
 import model.Play;
 import model.Play.*;
 
@@ -56,6 +57,9 @@ public class Game {
         return quality;
     }
 
+    public Play getJugada(){
+        return jugada;
+    }
     public void readInput(String inputFile) {
         try {
             // Open input file
@@ -107,7 +111,7 @@ public class Game {
         }
     }
 
-    void checkStrongestJugada() {
+    public void checkStrongestJugada() {
         if(strongestJugada == null)
             getStrongestJugada();
     }

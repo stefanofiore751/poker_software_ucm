@@ -1,6 +1,5 @@
 package model;
 
-import logic.Suits;
 
 public class Card {
 

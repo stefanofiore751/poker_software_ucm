@@ -9,8 +9,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import logic.Game;
+import logic.Game2;
+import logic.Game3;
+import model.Hand;
+import model.Play;
 
 public class Controller {
 	
@@ -31,8 +36,8 @@ public class Controller {
 	public Controller(FileReader inputFile, FileWriter outputFile) throws Exception {
 		_game = new Game();
 		_hands = new LinkedList<>();
-		_input = new FileReader(inputFile);
-		_output = new FileWriter(outputFile);
+		_input = new FileReader(String.valueOf(inputFile));
+		_output = new FileWriter(String.valueOf(outputFile));
 
 	}
 	//BufferedReader reader = new BufferedReader(inputFile);
@@ -44,7 +49,7 @@ public class Controller {
     }
 
     void read() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(_input)))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 if(_numero == 1) {
@@ -53,11 +58,11 @@ public class Controller {
                 } else if(_numero == 2) {
                     Game2 game = new Game2();
                     game.readInput(linea);
-                    game.writeoutput(outputFile, linea);
+                    game.writeoutput(String.valueOf(_output), linea);
                 } else {
                     Game3 game = new Game3();
                     game.readInput(linea);
-                    game.writeoutput(outputFile, linea);
+                    game.writeoutput(String.valueOf(_output), linea);
                 }
             }
         } catch (IOException e) {
@@ -70,7 +75,7 @@ public class Controller {
 	public void readC1() {
 		try {
             // Open input file
-            FileInputStream in = new FileInputStream(inputFile);
+            FileInputStream in = new FileInputStream(_input);
             //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             
             char value;
@@ -96,12 +101,12 @@ public class Controller {
 	public void writeC1(String linea) {
 		_game.checkStrongestJugada();
         try {
-            FileOutputStream out = new FileOutputStream(outputFile,true);
+            FileOutputStream out = new FileOutputStream(String.valueOf(_output),true);
             // Scrivere l'output su file
             String result = linea + "\n-Best Hand: " + _game.getBestPlay() + "\n";
-            if (_game.getJugada().getValue(Plays.GUTSHOT))
+            if (_game.getJugada().getValue(Play.Plays.GUTSHOT))
                 result += "-DRAW: Straight Gutshot\n";
-            if (_game.getJugada().getValue(Plays.FLUSH_DRAW))
+            if (_game.getJugada().getValue(Play.Plays.FLUSH_DRAW))
                 result += "-DRAW: flush\n";
             result += "\n";
             out.write(result.getBytes());
@@ -113,21 +118,21 @@ public class Controller {
 	
 	// - CASE II -
 	// Method which reads from the input file in the second case
-	public void readC2() {
-		File file = new File(outputFile);
+	/*public void readC2() {
+		File file = new File(String.valueOf(_output));
         file.delete();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(_input)))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 Game2 game = new Game2();
                 game.readInput(linea);
-                game.writeoutput(outputFile);  // write on output file
+                game.writeoutput (_output);  // write on output file
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}
+	}*/
 	
 	// Method which writes from the output file in the second case
 	public void writeC2() {
