@@ -44,18 +44,21 @@ public class Main {
             	//mainObj.writeoutput(outputFile);  // write on output file
             	//ctrl.writeC1();
                 ctrl.setGame(1);
+                ctrl.read();
                 break;
             case 2:
             	//game2Start(inputFile, outputFile);
             	//ctrl.readC2();
             	//ctrl.writeC2();
                 ctrl.setGame(2);
+                ctrl.read();
                 break;
             case 3:
                 //game3Start(inputFile, outputFile);
             	//ctrl.readC3();
             	//ctrl.writeC3();
                 ctrl.setGame(3);
+                ctrl.read();
                 break;
             default:
                 System.out.println("Invalid case number. Use 1, 2, or 3.");
