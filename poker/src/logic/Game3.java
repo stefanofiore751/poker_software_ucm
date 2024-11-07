@@ -2,6 +2,7 @@ package logic;
 
 import model.Card;
 import model.Play;
+import view.MainWindow;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -17,9 +18,13 @@ public class Game3 extends Game2 {
 
     LinkedList<Card> table = new LinkedList<>();
 
+    MainWindow mainWindow;
+
     public void readInput(String handTable) {
         char value;
         char suit;
+
+        mainWindow = new MainWindow();
 
         String[] parts = handTable.split(";");
 
@@ -28,6 +33,7 @@ public class Game3 extends Game2 {
         for (int i = 1; i <= numPlayers; i++) {
             Player player = getPlayer(parts[i]);
             players.add(player); // Add the player to the list
+            mainWindow.cartasJugador(player.getCards());
         }
 
         String commonCards = parts[numPlayers + 1];
@@ -36,6 +42,8 @@ public class Game3 extends Game2 {
              suit = commonCards.charAt(i * 2 + 1); // Get the suit of the common card
             table.add(new Card(value, suit)); // Assuming commonCardsList is defined to store the common cards
         }
+
+        mainWindow.cartasMesa(table);
     }
 
     private Player getPlayer(String parts) {

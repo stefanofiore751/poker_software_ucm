@@ -3,6 +3,7 @@ package controller;
 import logic.Game;
 import logic.Game2;
 import logic.Game3;
+import view.MainWindow;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +28,8 @@ public class Main {
 
         switch (caseNumber) {
             case 1:
-                game1Start(inputFile, outputFile);
+                MainWindow window = new MainWindow();
+                game1Start(inputFile, outputFile, window);
                 break;
             case 2:
                 game2Start(inputFile, outputFile);
@@ -42,10 +44,17 @@ public class Main {
 
 
     }
-    private static void game1Start(String inputFile, String outputFile) {
-        Game mainObj = new Game();
-        mainObj.readInput(inputFile);  // read from input file
-        mainObj.writeoutput(outputFile);  // write on output file
+    private static void game1Start(String inputFile, String outputFile, MainWindow window) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                Game mainObj = new Game();
+                mainObj.readInput(linea, window);  // read from input file
+                mainObj.writeoutput(outputFile);  // write on output file
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Metodo per il caso 2

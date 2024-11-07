@@ -4,6 +4,7 @@ import model.Card;
 
 import model.Play;
 import model.Play.*;
+import view.MainWindow;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -23,6 +24,8 @@ public class Game {
 
     Play jugada;
 
+    //MainWindow mainWindow;
+
     private final LinkedList<Card> mano;
 
     private final LinkedList<Card> play;
@@ -33,6 +36,7 @@ public class Game {
         jugada = new Play();
         mano = new LinkedList<>();
         play = new LinkedList<>();
+        //mainWindow = new MainWindow();
     }
 
     public Game(LinkedList<Card> mano) {
@@ -42,6 +46,7 @@ public class Game {
         this.mano = new LinkedList<>(mano);
         assignCounts(mano);
         play = new LinkedList<>();
+        //mainWindow = new MainWindow();
     }
 
     public String getBestPlay(){
@@ -56,26 +61,37 @@ public class Game {
         return quality;
     }
 
-    public void readInput(String inputFile) {
+    public void readInput(String inputFile, MainWindow window) {
         try {
             // Open input file
-            FileInputStream in = new FileInputStream(inputFile);
+            //FileInputStream in = new FileInputStream(inputFile);
             //FileInputStream in = new FileInputStream("..\\poker_software_ucm\\poker\\resources\\entrada.txt");
             char value;
             char suit;
 
             // Read file
-            while (in.available() > 0) {
+           /* while (in.available() > 0) {
                 value = (char) in.read();
                 suit = (char) in.read();
 
                 countSuits_Value(value, suit);
 
                 mano.add(new Card(value, suit));
+            }*/
+            int j = 0;
+            for(int i = 0; i < inputFile.length(); i += 2){
+                value = inputFile.charAt(j++);
+                suit = inputFile.charAt(j++);
+
+                countSuits_Value(value, suit);
+
+                mano.add(new Card(value, suit));
             }
 
+            window.cartasJugador(mano);
+
             // Close file
-            in.close();
+            //in.close();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
