@@ -1,0 +1,10 @@
+coord.add(new Point(580, 35));
+        coord.add(new Point(950, 120));
+        coord.add(new Point(780, 300));
+        coord.add(new Point(680, 400));
+        coord.add(new Point(525, 490));
+        coord.add(new Point(360, 435));
+        coord.add(new Point(200, 370));
+        coord.add(new Point(110, 285));
+        coord.add(new Point(155, 135));
+        coord.add(new Point(310, 35));
